@@ -1,3 +1,8 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:host ::ng-deep .router-outlet {
+    margin: 0;
+    padding: 0;
+  }
