@@ -25,22 +25,23 @@ export class AuthService {
     }
   }
 
-  singup(email: string) {
+  singup(username: string,email: string, password: string) {
     this.http.post("http://localhost:5242/api/User", {
-      "username": "string",
+      "username": username,
       "email": email,
-      "password": "string"
+      "password": password 
     }, {responseType: "text"}).subscribe(data => {
       this.cookieService.set("token", data)
       this.getUserInfo()
     })
   }
   
-  login() {
+  login(email: string, password: string) {
+    console.log(email)
     this.http.post("http://localhost:5242/api/User/login", {
       "username": "string",
-      "email": "string",
-      "password": "string"
+      "email": email,
+      "password": password 
     }, {responseType: "text"}).subscribe(data => {
       this.cookieService.set("token", data)
       this.getUserInfo()

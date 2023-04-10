@@ -7,9 +7,11 @@ import { AuthService } from 'src/app/guards/auth.service';
   styleUrls: ['./login-page.component.css']
 })
 export class LoginPageComponent {
+  email: string = ""
+  password: string = ""
   constructor(private authService: AuthService) {}
 
   handleOnLogin() {
-    this.authService.login()
+    this.authService.login(this.email, this.password)
   }
 }

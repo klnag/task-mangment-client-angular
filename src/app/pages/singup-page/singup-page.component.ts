@@ -25,6 +25,6 @@ export class SingupPageComponent {
     //   this.authService.singup()
     //   this.router.navigate([""])
     // })
-    this.authService.singup(this.email)
+    this.authService.singup(this.username,this.email,this.password)
   }
 }
