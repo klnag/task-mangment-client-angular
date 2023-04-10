@@ -13,18 +13,47 @@ export class SingupPageComponent {
   username: string = ""
   email: string = ""
   password: string = ""
+  emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+  isValidInputs = false
+  isLoading = false
+
+  data: {[key: string]: {value: string, errMsg: string}} = {
+    username: { value: "", errMsg: "init"},
+    email: { value: "", errMsg: "init"},
+    password: { value: "", errMsg: "init"},
+  }
 
   constructor(private http: HttpClient, private cookiesSerivce: CookieService, private router: Router, private authService: AuthService) {}
 
-  handleOnSingup(){
-    // console.log(this.username, this.email, this.password)
-    // this.http.post("http://localhost:5242/api/User", 
-    // {username: this.username, email: this.email, password: this.password},
-    // {responseType: "text"}).subscribe(data => {
-    //   this.cookiesSerivce.set("token", data)
-    //   this.authService.singup()
-    //   this.router.navigate([""])
-    // })
-    this.authService.singup(this.username,this.email,this.password)
+  handleOnSingup() {
+    this.inputValidate("username","normal")
+    this.inputValidate("email","email")
+    this.inputValidate("password","password")
+    if(!this.data["username"].errMsg && !this.data["email"].errMsg && !this.data["password"].errMsg) {
+      this.isValidInputs = false
+      this.isLoading = true
+      this.authService.singup(this.data["username"].value, this.data["email"].value,this.data["password"].value)
+    }
+  }
+  inputValidate(target: string, type: string) {
+    console.log(this.isValidInputs)
+    if (type === "normal") {
+      if (!this.data[target].value) this.data[target].errMsg = `${target} is empty` 
+      else if (this.data[target].value.length < 3) this.data[target].errMsg = `${target} is less than 3 chars`
+      else this.data[target].errMsg = ""
+    } else if(type === "email") {
+      if (!this.data[target].value) this.data[target].errMsg = `${target} is empty` 
+      else if (this.data[target].value.length < 8) this.data[target].errMsg = `${target} is less than 8 chars`
+      else if (!this.emailPattern.test(this.data[target].value)) this.data[target].errMsg = `${target} must be an email`
+      else this.data[target].errMsg = ""
+    } else if(type === "password") {
+      if (!this.data[target].value) this.data[target].errMsg = `${target} is empty` 
+      else if (this.data[target].value.length < 8) this.data[target].errMsg = `${target} is less than 8 chars`
+      else this.data[target].errMsg = ""
+    }
+    
+    if(!this.data["username"].errMsg && !this.data["email"].errMsg && !this.data["password"].errMsg) {
+      this.isValidInputs = true
+    }
   }
 }
