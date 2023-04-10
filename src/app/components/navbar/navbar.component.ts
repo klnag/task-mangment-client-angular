@@ -8,8 +8,7 @@ import { Component } from '@angular/core';
 })
 export class NavbarComponent  {
   constructor(private authGuard: AuthService) {}
-  ff() {
+  handleOnLogout() {
     this.authGuard.logout()
-    console.log("hi")
   }
 }

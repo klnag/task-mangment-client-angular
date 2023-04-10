@@ -10,7 +10,7 @@ export class AppComponent {
   constructor(private cookieService: CookieService, private authService: AuthService) {}
   ngOnInit() {
     if(this.cookieService.get("token")) {
-      this.authService.login()
+      this.authService.getUserInfo()
     }
   }
 }

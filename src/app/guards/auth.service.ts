@@ -12,7 +12,7 @@ export class AuthService {
 
   constructor(private http: HttpClient, private cookieService: CookieService, private router: Router) {}
 
-  login() {
+  getUserInfo() {
     if (!localStorage.getItem("user")) {
       this.http.get('http://localhost:5242/api/User', {
         headers: { "Authorization": "Bearer " + this.cookieService.get("token") }, responseType: "json"
@@ -20,8 +20,31 @@ export class AuthService {
       ).subscribe(data => {
         localStorage.setItem("user", JSON.stringify({ user: data }))
         this.loggedIn = true;
+        this.router.navigate([''])
       })
     }
+  }
+
+  singup(email: string) {
+    this.http.post("http://localhost:5242/api/User", {
+      "username": "string",
+      "email": email,
+      "password": "string"
+    }, {responseType: "text"}).subscribe(data => {
+      this.cookieService.set("token", data)
+      this.getUserInfo()
+    })
+  }
+  
+  login() {
+    this.http.post("http://localhost:5242/api/User/login", {
+      "username": "string",
+      "email": "string",
+      "password": "string"
+    }, {responseType: "text"}).subscribe(data => {
+      this.cookieService.set("token", data)
+      this.getUserInfo()
+    })
   }
 
   logout() {

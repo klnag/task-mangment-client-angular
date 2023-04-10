@@ -16,14 +16,15 @@ export class SingupPageComponent {
 
   constructor(private http: HttpClient, private cookiesSerivce: CookieService, private router: Router, private authService: AuthService) {}
 
-  singup(){
-    console.log(this.username, this.email, this.password)
-    this.http.post("http://localhost:5242/api/User", 
-    {username: this.username, email: this.email, password: this.password},
-    {responseType: "text"}).subscribe(data => {
-      this.cookiesSerivce.set("token", data)
-      this.authService.login()
-      this.router.navigate([""])
-    })
+  handleOnSingup(){
+    // console.log(this.username, this.email, this.password)
+    // this.http.post("http://localhost:5242/api/User", 
+    // {username: this.username, email: this.email, password: this.password},
+    // {responseType: "text"}).subscribe(data => {
+    //   this.cookiesSerivce.set("token", data)
+    //   this.authService.singup()
+    //   this.router.navigate([""])
+    // })
+    this.authService.singup(this.email)
   }
 }
