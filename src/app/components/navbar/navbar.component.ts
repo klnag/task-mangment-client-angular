@@ -9,7 +9,7 @@ import { Component } from '@angular/core';
 export class NavbarComponent  {
   constructor(private authGuard: AuthService) {}
   ff() {
-    this.authGuard.login()
+    this.authGuard.logout()
     console.log("hi")
   }
 }
