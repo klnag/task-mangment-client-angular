@@ -1,6 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
+import { AuthService } from 'src/app/guards/auth.service';
 
 @Component({
   selector: 'app-singup-page',
@@ -12,12 +14,16 @@ export class SingupPageComponent {
   email: string = ""
   password: string = ""
 
-  constructor(private http: HttpClient, private cookiesSerivce: CookieService) {}
+  constructor(private http: HttpClient, private cookiesSerivce: CookieService, private router: Router, private authService: AuthService) {}
 
   singup(){
     console.log(this.username, this.email, this.password)
     this.http.post("http://localhost:5242/api/User", 
     {username: this.username, email: this.email, password: this.password},
-    {responseType: "text"}).subscribe(data => this.cookiesSerivce.set("token", data))
+    {responseType: "text"}).subscribe(data => {
+      this.cookiesSerivce.set("token", data)
+      this.authService.login()
+      this.router.navigate([""])
+    })
   }
 }

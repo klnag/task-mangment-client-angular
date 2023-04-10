@@ -4,12 +4,12 @@ import { HomePageComponent } from './pages/home-page/home-page.component';
 import { LoginPageComponent } from './pages/login-page/login-page.component';
 import { SingupPageComponent } from './pages/singup-page/singup-page.component';
 import { NotFoundPageComponent } from './pages/not-found-page/not-found-page.component';
-import { AuthGuard } from './guards/auth.guard';
+import { AuthGuard, AuthNotGuard } from './guards/auth.guard';
 
 const routes: Routes = [
   { path: '', component: HomePageComponent, canActivate: [AuthGuard]},
-  { path: 'login', component: LoginPageComponent},
-  { path: 'singup', component: SingupPageComponent},
+  { path: 'login', component: LoginPageComponent, canActivate: [AuthNotGuard]},
+  { path: 'singup', component: SingupPageComponent, canActivate: [AuthNotGuard]},
   { path: '**', component: NotFoundPageComponent}
 ];
 
