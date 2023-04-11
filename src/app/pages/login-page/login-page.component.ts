@@ -22,7 +22,6 @@ export class LoginPageComponent {
     this.authService.login(this.data["email"].value,this.data["password"].value)
   }
   inputValidate(target: string, type: string) {
-    console.log(this.isValidInputs)
     if (type === "normal") {
       if (!this.data[target].value) this.data[target].errMsg = `${target} is empty` 
       else if (this.data[target].value.length < 3) this.data[target].errMsg = `${target} is less than 3 chars`

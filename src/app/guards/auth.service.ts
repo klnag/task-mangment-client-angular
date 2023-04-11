@@ -2,6 +2,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -9,6 +10,7 @@ import { Router } from '@angular/router';
 export class AuthService {
 
   private loggedIn = localStorage.getItem("user") !== "" && this.cookieService.get("token") !== "";
+  private isLoggedin = new BehaviorSubject<boolean>(localStorage.getItem("user") !== "" && this.cookieService.get("token") !== "")
 
   constructor(private http: HttpClient, private cookieService: CookieService, private router: Router) {}
 
@@ -20,7 +22,8 @@ export class AuthService {
       ).subscribe(data => {
         localStorage.setItem("user", JSON.stringify({ user: data }))
         this.loggedIn = true;
-        this.router.navigate([''])
+        this.isLoggedin.next(true)
+        this.router.navigate(['dashboard'])
       })
     }
   }
@@ -51,6 +54,7 @@ export class AuthService {
   logout() {
     this.cookieService.delete("token")
     localStorage.removeItem("user")
+        this.isLoggedin.next(false)
     this.loggedIn = false;
     this.router.navigate(["login"])
   }
@@ -58,5 +62,7 @@ export class AuthService {
   isLoggedIn() {
     return this.loggedIn;
   }
-
+isLoggedIns() {
+    return this.isLoggedin.asObservable();
+  }
 }

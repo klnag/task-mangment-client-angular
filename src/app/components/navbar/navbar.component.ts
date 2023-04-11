@@ -1,5 +1,6 @@
 import { AuthService } from 'src/app/guards/auth.service';
 import { Component } from '@angular/core';
+import { GlobalVariblesService } from 'src/app/store/global-varibles.service';
 
 @Component({
   selector: 'app-navbar',
@@ -7,8 +8,15 @@ import { Component } from '@angular/core';
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent  {
-  constructor(private authGuard: AuthService) {}
+  isLoggedIn: boolean = false
+  constructor(private authGuard: AuthService, private authService: AuthService) {
+  }
+  ngOnInit() {
+    this.authService.isLoggedIns().subscribe(res => this.isLoggedIn = res)
+  }
   handleOnLogout() {
+    // this.isLoggedIn = !this.isLoggedIn 
     this.authGuard.logout()
   }
+
 }
