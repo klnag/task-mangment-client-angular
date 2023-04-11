@@ -5,7 +5,7 @@ import { Injectable } from '@angular/core';
 @Injectable({
   providedIn: 'root'
 })
-export class DashboardService {
+export class ProjectsService {
   headers = new HttpHeaders().set('Authorization', `Bearer ${this.cookieService.get("token")}`)
   userData: any
   constructor(private http: HttpClient, private cookieService: CookieService) { 

@@ -23,7 +23,7 @@ export class AuthService {
         localStorage.setItem("user", JSON.stringify({ user: data }))
         this.loggedIn = true;
         this.isLoggedin.next(true)
-        this.router.navigate(['dashboard'])
+        this.router.navigate(['projects'])
       })
     }
   }

@@ -5,10 +5,12 @@
             class="rounded-l-lg py-2 px-3 border-t border-b border-l text-gray-800 border-gray-200 bg-white mb-2 md:mb-0"
             placeholder="Add a new project..."
             [(ngModel)]="newProjectName">
-        <button (click)="handleOnAddProject()" class="  rounded-r-lg text-white font-bold py-2 px-4"
+        <button *ngIf="!isAddNewProjectLoading" (click)="handleOnAddProject()" class="  rounded-r-lg text-white font-bold py-2 px-4"
         [disabled]="!newProjectName"
         [ngClass]="{'hover:bg-blue-600': newProjectName,'bg-blue-500': newProjectName,'bg-blue-200': !newProjectName,'cursor-not-allowed': !newProjectName}">Add</button>
-    </div>
+        <button *ngIf="isAddNewProjectLoading" class="bg-blue-200 rounded-r-lg text-white font-bold py-2 px-4"
+        [disabled]=true
+    >wait</button></div>
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" *ngIf="projects.length; else noProj">
         <div *ngFor="let proj of projects" class="bg-white rounded-lg shadow-md p-4">
             <h3 class="font-bold text-lg mb-2">{{proj.name}}</h3>

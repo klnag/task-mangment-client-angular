@@ -11,7 +11,7 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
-import { DashboardComponent } from './pages/dashboard/dashboard.component';
+import { ProjectsComponent } from './pages/projects/projects.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +22,7 @@ import { DashboardComponent } from './pages/dashboard/dashboard.component';
     NotFoundPageComponent,
     NavbarComponent,
     FooterComponent,
-    DashboardComponent,
+    ProjectsComponent
   ],
   imports: [
     BrowserModule,
