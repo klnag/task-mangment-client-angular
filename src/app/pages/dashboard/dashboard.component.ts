@@ -1,3 +1,4 @@
+import { DashboardService } from './dashboard.service';
 import { Component } from '@angular/core';
 
 @Component({
@@ -8,4 +9,13 @@ import { Component } from '@angular/core';
 export class DashboardComponent {
 
   userData = JSON.parse(localStorage.getItem("user")+"").user
+  projects: any
+  constructor(private dashboardService: DashboardService) {}
+
+  ngOnInit() {
+    this.dashboardService.handleOnGetAllProjects().subscribe(data => {
+      this.projects = data
+      console.log(this.projects)
+    })
+  }
 }

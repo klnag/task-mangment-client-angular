@@ -1,3 +1,16 @@
-<p>dashboard works!</p>
+<!-- <p>dashboard works!</p>
 
-<p>Welcome {{userData.username}}</p>
+<p>Welcome {{userData.username}}</p> -->
+<div class="container mx-auto py-6">
+    <h1 class="text-3xl font-semibold">Task Management System</h1>
+    <div class="mt-8">
+        <h2 class="flex flex-col text-xl font-semibold">Projects</h2>
+        <div class="mt-4">
+            <div class="m-6 rounded-lg bg-white  p-4 shadow flex justify-around flex-wrap" *ngFor="let proj of projects">
+                <h3 class="text-lg ">{{proj.name}}</h3>
+                <p class=" text-gray-600 ">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                <a href="#" class="rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600">View Tasks</a>
+            </div>
+        </div>
+    </div>
+</div>
