@@ -2,12 +2,12 @@
     <h1 class="w-1/2 text-center my-auto">
         <a routerLink="">Logo</a>
     </h1>
-    <button (click)="handleOnLogout()">Logout</button>
+    <button *ngIf="isLoggedIn"(click)="handleOnLogout()">Logout</button>
     <ul class="flex justify-around  my-auto w-1/2">
-        <li>
+        <li *ngIf="!isLoggedIn">
             <a routerLink="login">Login</a>
         </li>
-        <li>
+        <li *ngIf="!isLoggedIn">
             <a routerLink="singup">Sing up</a>
         </li>
         <li *ngIf="isLoggedIn">

@@ -39,6 +39,9 @@ export class LoginPageComponent {
     
     if(!this.data["email"].errMsg && !this.data["password"].errMsg) {
       this.isValidInputs = true
+    } else {
+
+      this.isValidInputs = false 
     }
   }
 }
