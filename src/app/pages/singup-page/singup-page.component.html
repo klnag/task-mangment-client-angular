@@ -5,7 +5,7 @@
         <h2 class="mb-6 text-center text-3xl font-extrabold text-gray-900">Sign up for an account</h2>
       </div>
       <div>
-        <label for="name" class="block text-sm font-medium text-gray-700">Full name</label>
+        <label for="name" class="block text-sm font-medium text-gray-700">Username</label>
         <div class="mt-1">
           <input (input)="inputValidate('username', 'normal')" [(ngModel)]="data['username'].value" id="name"
             name="name" type="text" autocomplete="name" required
@@ -46,7 +46,7 @@
       <div>
         <button [disabled]="!isValidInputs" (click)="handleOnSingup()" type="submit"
           class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-500 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-          [ngClass]="{'bg-blue-200': !isValidInputs, 'hover:bg-blue-200': !isValidInputs}">
+          [ngClass]="{'bg-blue-300': !isValidInputs, 'hover:bg-blue-300': !isValidInputs, 'cursor-not-allowed': !isValidInputs}">
           <p *ngIf="isLoading; else text">Loading...</p>
           <ng-template #text>Sing up</ng-template>
         </button>
