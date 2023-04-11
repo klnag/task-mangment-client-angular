@@ -1,16 +1,25 @@
-<!-- <p>dashboard works!</p>
-
-<p>Welcome {{userData.username}}</p> -->
 <div class="container mx-auto py-6">
-    <h1 class="text-3xl font-semibold">Task Management System</h1>
-    <div class="mt-8">
-        <h2 class="flex flex-col text-xl font-semibold">Projects</h2>
-        <div class="mt-4">
-            <div class="m-6 rounded-lg bg-white  p-4 shadow flex justify-around flex-wrap" *ngFor="let proj of projects">
-                <h3 class="text-lg ">{{proj.name}}</h3>
-                <p class=" text-gray-600 ">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                <a href="#" class="rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600">View Tasks</a>
-            </div>
+    <h1 class="text-2xl font-bold mb-4">Your Projects</h1>
+    <div class=" mb-4">
+        <input type="text"
+            class="rounded-l-lg py-2 px-3 border-t border-b border-l text-gray-800 border-gray-200 bg-white mb-2 md:mb-0"
+            placeholder="Add a new project..."
+            [(ngModel)]="newProjectName">
+        <button (click)="handleOnAddProject()" class="  rounded-r-lg text-white font-bold py-2 px-4"
+        [disabled]="!newProjectName"
+        [ngClass]="{'hover:bg-blue-600': newProjectName,'bg-blue-500': newProjectName,'bg-blue-200': !newProjectName,'cursor-not-allowed': !newProjectName}">Add</button>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" *ngIf="projects.length; else noProj">
+        <div *ngFor="let proj of projects" class="bg-white rounded-lg shadow-md p-4">
+            <h3 class="font-bold text-lg mb-2">{{proj.name}}</h3>
+            <p class="text-gray-600 mb-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            <a href="#" class="bg-blue-500 hover:bg-blue-600 rounded-md text-white font-bold py-2 px-4">View Tasks</a>
         </div>
     </div>
+    <ng-template #noProj>
+        <div *ngIf="isLoading">Loadin..</div>
+        <div *ngIf="!isLoading">
+            <p class="text-center text-gray-600 text-sm mt-4">No projects found. Create a new one!</p>
+        </div>
+    </ng-template>
 </div>

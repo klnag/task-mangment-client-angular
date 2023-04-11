@@ -7,9 +7,16 @@ import { Injectable } from '@angular/core';
 })
 export class DashboardService {
   headers = new HttpHeaders().set('Authorization', `Bearer ${this.cookieService.get("token")}`)
-  constructor(private http: HttpClient, private cookieService: CookieService) { }
+  userData: any
+  constructor(private http: HttpClient, private cookieService: CookieService) { 
+    this.userData = JSON.parse(localStorage.getItem("user")+"")
+  }
 
   handleOnGetAllProjects() {
     return this.http.post('http://localhost:5242/api/Project/userprojects', {}, {headers:this.headers})
+  }
+  handleOnAddNewProject(name: string) {
+    // console.log(`http://localhost:5242/api/Project?id=${this.userData.user.id}&name=${name}`)
+    return this.http.post(`http://localhost:5242/api/Project`, {name}, {headers:this.headers, responseType: "json"})
   }
 }
