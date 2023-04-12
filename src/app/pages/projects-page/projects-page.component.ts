@@ -12,6 +12,7 @@ export class ProjectsPageComponent {
   userData = JSON.parse(localStorage.getItem("user")+"").user
   projects: any[] = []
   newProjectName = ""
+  localStorage = localStorage
   constructor(private projectsPageService: ProjectsPageService) {}
 
   ngOnInit() {
@@ -31,6 +32,10 @@ export class ProjectsPageComponent {
         this.isAddNewProjectLoading = true
       })
     }
+  }
+
+  jsonToString(json: any) {
+    return JSON.stringify(json)
   }
 
 }
