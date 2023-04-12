@@ -11,6 +11,8 @@ export class ProjectPageComponent {
   projectId 
   allTodos: any = []
   isLoadding = false
+  newTodo = ""
+  isCreatingNewTodo = false
   constructor(private route: ActivatedRoute, private projectPageService: ProjectPageService) {
     this.projectId = this.route.snapshot.paramMap.get("id")
   }
@@ -18,7 +20,20 @@ export class ProjectPageComponent {
     this.isLoadding = true
     this.projectPageService.handleOnGetAllTodos(this.projectId+"").subscribe(data => {
       this.allTodos = data
+      console.log(data)
       this.isLoadding = false 
     })
+  }
+
+  handleOnAddNewTodo() {
+    if(this.newTodo) {
+      this.projectPageService.handleOnCreateNewTodo(this.newTodo, this.projectId+"")
+        .subscribe(data => {
+          this.allTodos.push(data)
+          this.newTodo = ""
+          this.isCreatingNewTodo = false
+          console.log(data)
+        })
+    }
   }
 }

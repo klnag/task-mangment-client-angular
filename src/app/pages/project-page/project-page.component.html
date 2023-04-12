@@ -1,12 +1,10 @@
-
 <div class=" w-full h-[92vh] flex flex-col">
     <p>Project name</p>
-    <div *ngIf="isLoadding">Loading...</div>
     <div class=" flex-1 flex">
         <div class="  flex-1 py-2 px-4">
             <div class="w-full text-center p-2">Todo</div>
-
-            <button class="mb-1 bg-white w-full h-8 rounded-lg text-xl hover:bg-gray-100">+</button>
+            <button (click)="isCreatingNewTodo = true" class="mb-1 bg-white w-full h-8 rounded-lg text-xl hover:bg-gray-100">+</button>
+            <div *ngIf="isLoadding">Loading...</div>
             <div *ngIf="!isLoadding">
                 <div *ngFor="let todo of allTodos" class="pl-6 flex items-center bg-white w-full rounded-lg my-2">
                     <h2 class="my-2">{{todo.title}}</h2>
@@ -15,16 +13,23 @@
         </div>
         <div class="  flex-1 py-2 px-4">
             <div class="w-full text-center p-2">In prograce</div>
-
-            <button class="mb-1 bg-white w-full h-8 rounded-lg text-xl hover:bg-gray-100">+</button>
+            <div *ngIf="isLoadding">Loading...</div>
             <div *ngIf="!isLoadding">
             </div>
         </div>
         <div class="  flex-1 py-2 px-4">
             <div class="w-full text-center p-2">Done</div>
-            <button class="mb-1 bg-white w-full h-8 rounded-lg text-xl hover:bg-gray-100">+</button>
+            <div *ngIf="isLoadding">Loading...</div>
             <div *ngIf="!isLoadding">
             </div>
         </div>
     </div>
+    <div *ngIf="isCreatingNewTodo" class="bg-blue-200  absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%]">
+        <div class="m-4 flex flex-col">
+            <button (click)="isCreatingNewTodo = false">X</button>
+        <label for="">Title</label>
+        <input type="text" placeholder="Title" [(ngModel)]="newTodo">
+        <button (click)="handleOnAddNewTodo()">Add</button>
+    </div>
+</div>
 </div>
