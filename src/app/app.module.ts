@@ -11,7 +11,8 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
-import { ProjectsComponent } from './pages/projects/projects.component';
+import { ProjectPageComponent } from './pages/project-page/project-page.component';
+import { ProjectsPageComponent } from './pages/projects-page/projects-page.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { ProjectsComponent } from './pages/projects/projects.component';
     NotFoundPageComponent,
     NavbarComponent,
     FooterComponent,
-    ProjectsComponent
+    ProjectsPageComponent,
+    ProjectPageComponent
   ],
   imports: [
     BrowserModule,
