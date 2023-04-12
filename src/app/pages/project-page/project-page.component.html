@@ -1,1 +1,8 @@
 <p>project-page works!</p>
+
+<div *ngIf="isLoadding">Loading...</div>
+<div *ngIf="!isLoadding">
+    <div *ngFor="let todo of allTodos">
+        <h1>{{todo.title}}</h1>
+    </div>
+</div>

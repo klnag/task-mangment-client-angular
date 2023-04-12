@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ProjectPageService } from './project-page.service';
 
 @Component({
   selector: 'app-project-page',
@@ -8,11 +9,16 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class ProjectPageComponent {
   projectId 
-  constructor(private route: ActivatedRoute) {
+  allTodos: any = []
+  isLoadding = false
+  constructor(private route: ActivatedRoute, private projectPageService: ProjectPageService) {
     this.projectId = this.route.snapshot.paramMap.get("id")
   }
   ngOnInit() {
-    console.log(this.projectId)
+    this.isLoadding = true
+    this.projectPageService.handleOnGetAllTodos(this.projectId+"").subscribe(data => {
+      this.allTodos = data
+      this.isLoadding = false 
+    })
   }
-
 }
