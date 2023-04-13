@@ -8,7 +8,8 @@
             <div *ngIf="!isLoadding">
                 <div *ngFor="let todo of allTodos" class="px-6 flex  items-center bg-white w-full rounded-lg my-2">
                     <div *ngIf="todo.status === 'TODO'" class="w-full flex flex-col">
-                        <div>
+                        <div class="flex">
+                            <button (click)="handleOnClickDelete(todo.id)" class="m-auto">X</button>
                             <button (click)="handleOnClickMove(todo.id, todo.title, 'INPROGRACE')" class="float-right">></button>
                         </div>
                         <h2 class="my-2">{{todo.title}}</h2>
@@ -22,8 +23,9 @@
             <div *ngIf="!isLoadding">
                 <div *ngFor="let todo of allTodos" class="px-6 flex items-center bg-white w-full rounded-lg my-2">
                     <div *ngIf="todo.status === 'INPROGRACE'" class="w-full">
-                        <div class="w-full ">
+                        <div class="flex">
                             <button (click)="handleOnClickMove(todo.id, todo.title, 'DONE')"class="float-right">></button>
+                            <button (click)="handleOnClickDelete(todo.id)" class="m-auto">X</button>
                             <button (click)="handleOnClickMove(todo.id, todo.title, 'TODO')" class=""><</button>
                         </div>
                         <h2 class="my-2">{{todo.title}}</h2>
@@ -37,7 +39,8 @@
             <div *ngIf="!isLoadding">
                 <div *ngFor="let todo of allTodos" class="px-6 flex items-center bg-white w-full rounded-lg my-2">
                     <div *ngIf="todo.status === 'DONE'" class="w-full">
-                        <div class="w-full ">
+                        <div class="flex ">
+                            <button (click)="handleOnClickDelete(todo.id)" class="m-auto">X</button>
                             <button (click)="handleOnClickMove(todo.id, todo.title, 'INPROGRACE')"class=""><</button>
                         </div>
                         <h2 class="my-2">{{todo.title}}</h2>

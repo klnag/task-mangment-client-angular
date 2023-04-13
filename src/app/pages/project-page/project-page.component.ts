@@ -44,4 +44,13 @@ export class ProjectPageComponent {
       console.log(data)
     })
   }
+
+  handleOnClickDelete(todoId: string) {
+    this.projectPageService.handleOnDeleteTodoStatus(todoId)
+    .subscribe(data => {
+      const i = this.allTodos.findIndex((todo: any) => todo.id == todoId)
+      const t = this.allTodos.slice(i, -1)
+      this.allTodos = this.allTodos.filter((todo: any) => todo.id !== todoId)
+    })
+  }
 }
