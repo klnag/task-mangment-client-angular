@@ -36,4 +36,12 @@ export class ProjectPageComponent {
         })
     }
   }
+  handleOnClickMove(todoId: string, title: string, status: string) {
+    console.log(todoId, title, status)
+    this.projectPageService.handleOnUpdateTodoStatus(todoId,title,this.projectId+"",status)
+    .subscribe(data => {
+      this.allTodos = data
+      console.log(data)
+    })
+  }
 }

@@ -6,8 +6,13 @@
             <button (click)="isCreatingNewTodo = true" class="mb-1 bg-white w-full h-8 rounded-lg text-xl hover:bg-gray-100">+</button>
             <div *ngIf="isLoadding">Loading...</div>
             <div *ngIf="!isLoadding">
-                <div *ngFor="let todo of allTodos" class="pl-6 flex items-center bg-white w-full rounded-lg my-2">
-                    <h2 class="my-2">{{todo.title}}</h2>
+                <div *ngFor="let todo of allTodos" class="px-6 flex  items-center bg-white w-full rounded-lg my-2">
+                    <div *ngIf="todo.status === 'TODO'" class="w-full flex flex-col">
+                        <div>
+                            <button (click)="handleOnClickMove(todo.id, todo.title, 'INPROGRACE')" class="float-right">></button>
+                        </div>
+                        <h2 class="my-2">{{todo.title}}</h2>
+                    </div>
                 </div>
             </div>
         </div>
@@ -15,12 +20,29 @@
             <div class="w-full text-center p-2">In prograce</div>
             <div *ngIf="isLoadding">Loading...</div>
             <div *ngIf="!isLoadding">
+                <div *ngFor="let todo of allTodos" class="px-6 flex items-center bg-white w-full rounded-lg my-2">
+                    <div *ngIf="todo.status === 'INPROGRACE'" class="w-full">
+                        <div class="w-full ">
+                            <button (click)="handleOnClickMove(todo.id, todo.title, 'DONE')"class="float-right">></button>
+                            <button (click)="handleOnClickMove(todo.id, todo.title, 'TODO')" class=""><</button>
+                        </div>
+                        <h2 class="my-2">{{todo.title}}</h2>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="  flex-1 py-2 px-4">
             <div class="w-full text-center p-2">Done</div>
             <div *ngIf="isLoadding">Loading...</div>
             <div *ngIf="!isLoadding">
+                <div *ngFor="let todo of allTodos" class="px-6 flex items-center bg-white w-full rounded-lg my-2">
+                    <div *ngIf="todo.status === 'DONE'" class="w-full">
+                        <div class="w-full ">
+                            <button (click)="handleOnClickMove(todo.id, todo.title, 'INPROGRACE')"class=""><</button>
+                        </div>
+                        <h2 class="my-2">{{todo.title}}</h2>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
