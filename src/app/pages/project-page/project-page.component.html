@@ -1,18 +1,28 @@
 <div class=" w-full h-[92vh] flex flex-col">
-    <p>Project name</p>
+    <h1 class="m-4 text-2xl">{{projectData.name}}</h1>
     <div class=" flex-1 flex">
         <div class="  flex-1 py-2 px-4">
-            <div class="w-full text-center p-2">Todo</div>
-            <button (click)="isCreatingNewTodo = true" class="mb-1 bg-white w-full h-8 rounded-lg text-xl hover:bg-gray-100">+</button>
+            <div class="flex justify-center items-center">
+                <p class=" text-center p-2">Todo</p>
+                <button (click)="isCreatingNewTodo = true"
+                    class="px-4 bg-white  h-8 rounded-lg text-lg hover:bg-gray-100">+</button>
+            </div>
             <div *ngIf="isLoadding">Loading...</div>
             <div *ngIf="!isLoadding">
+                <div *ngIf="isCreatingNewTodo" class="w-full flex flex-col bg-gray-200 p-1">
+                    <textarea [(ngModel)]="newTodo"rows="2" class="p-2 resize-none"></textarea>
+                    <div class="w-full flex bg-red-100">
+                    <button (click)="handleOnAddNewTodo()" class="rounded-md bg-blue-300 text-white m-2 py-2 w-3/4">Add</button>
+                    <button (click)="isCreatingNewTodo = false" class="rounded-md bg-blue-300 text-white m-2 py-2 w-1/4">X</button>
+                    </div>
+                </div>
                 <div *ngFor="let todo of allTodos" class="px-6 flex  items-center bg-white w-full rounded-lg my-2">
                     <div *ngIf="todo.status === 'TODO'" class="w-full flex flex-col">
                         <div class="flex">
                             <button (click)="handleOnClickDelete(todo.id)" class="m-auto">X</button>
                             <button (click)="handleOnClickMove(todo.id, todo.title, 'INPROGRACE')" class="float-right">></button>
                         </div>
-                        <h2 class="my-2">{{todo.title}}</h2>
+                        <h2 (click)="handleOnClickTask(todo)" class="my-2">{{todo.title}}</h2>
                     </div>
                 </div>
             </div>
@@ -24,9 +34,9 @@
                 <div *ngFor="let todo of allTodos" class="px-6 flex items-center bg-white w-full rounded-lg my-2">
                     <div *ngIf="todo.status === 'INPROGRACE'" class="w-full">
                         <div class="flex">
-                            <button (click)="handleOnClickMove(todo.id, todo.title, 'DONE')"class="float-right">></button>
-                            <button (click)="handleOnClickDelete(todo.id)" class="m-auto">X</button>
                             <button (click)="handleOnClickMove(todo.id, todo.title, 'TODO')" class=""><</button>
+                            <button (click)="handleOnClickDelete(todo.id)" class="m-auto">X</button>
+                            <button (click)="handleOnClickMove(todo.id, todo.title, 'DONE')"class="float-right">></button>
                         </div>
                         <h2 class="my-2">{{todo.title}}</h2>
                     </div>
@@ -40,8 +50,8 @@
                 <div *ngFor="let todo of allTodos" class="px-6 flex items-center bg-white w-full rounded-lg my-2">
                     <div *ngIf="todo.status === 'DONE'" class="w-full">
                         <div class="flex ">
-                            <button (click)="handleOnClickDelete(todo.id)" class="m-auto">X</button>
                             <button (click)="handleOnClickMove(todo.id, todo.title, 'INPROGRACE')"class=""><</button>
+                            <button (click)="handleOnClickDelete(todo.id)" class="m-auto">X</button>
                         </div>
                         <h2 class="my-2">{{todo.title}}</h2>
                     </div>
@@ -49,12 +59,56 @@
             </div>
         </div>
     </div>
-    <div *ngIf="isCreatingNewTodo" class="bg-blue-200  absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%]">
-        <div class="m-4 flex flex-col">
-            <button (click)="isCreatingNewTodo = false">X</button>
-        <label for="">Title</label>
-        <input type="text" placeholder="Title" [(ngModel)]="newTodo">
-        <button (click)="handleOnAddNewTodo()">Add</button>
-    </div>
 </div>
+<div *ngIf="isUpdatingTask"
+    class=" w-5/6 min-h-4/5 flex bg-pink-50  absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%]">
+    <div class="m-8 flex-1">
+        <div class="bg-red-600 flex w-full h-1/4">
+            <div class="bg-red-200 w-1/2 h-full flex items-center">
+
+                <h1 class="text-3xl">{{selectedTask.title}}</h1>
+            </div>
+            <div class="bg-red-300 w-1/2 h-full">
+                <button (click)="isUpdatingTask = false" class="float-right">X</button>
+                <br>
+                <div class="w-full text-center">
+                    <h1>By: username</h1>
+                    <h1>created at: 11/12/2021</h1>
+                    <h1>updated at: 11/12/2021</h1>
+                </div>
+            </div>
+
+        </div>
+        <div>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus iure quam magni optio temporibus ab
+                facilis
+                rerum aliquid enim omnis repellendus aliquam tempora commodi recusandae, vel quis soluta qui suscipit,
+                accusamus
+                at molestiae consectetur quasi. Voluptatem tempora dolorum consequuntur corrupti pariatur alias commodi,
+                rerum
+                iure, nisi assumenda optio accusantium modi quas nulla voluptas eaque nostrum non vel neque quod.
+                Aspernatur
+                voluptatibus maxime eaque deserunt iure vel quas harum. Rem cum nobis tempora in quae error, a quia at
+                nesciunt
+                atque veniam unde eveniet labore illo aspernatur ad voluptates, laborum porro aliquam dolore repellat
+                quas,
+                debitis totam. Nam, pariatur est?</p>
+
+        </div>
+        <div class="flex w-full flex-col p-8">
+            <label for="">Comment:</label>
+            <br>
+            <textarea class="p-4 resize-none"  rows="3" [(ngModel)]="commentMsg"></textarea>
+            <button (click)="handleOnClickSendComment()" class="my-2 rounded-lg hover:bg-blue-500 bg-blue-300 mx-auto text-white py-2 px-8 w-max">Send</button>
+            <br>
+            <div *ngIf="!allSelectedTodoComments.length">Loading...</div>
+            <div *ngIf="allSelectedTodoComments.length">
+                <div *ngFor="let comment of allSelectedTodoComments">
+                    <h1>From: {{comment["userName"]}}</h1>
+                    <p class="pl-8">{{comment["context"]}}</p>
+                    <br>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

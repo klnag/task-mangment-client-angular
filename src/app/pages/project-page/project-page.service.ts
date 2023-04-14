@@ -23,4 +23,11 @@ export class ProjectPageService {
   handleOnDeleteTodoStatus(todoId: string) {
     return this.http.delete('http://localhost:5242/api/Todo/'+todoId, {headers:this.headers, responseType: "text"})
   }
+  handleOnGetAllTaskComments(todoId: string) {
+    return this.http.get('http://localhost:5242/api/Todo/alltodocomments?todoId='+todoId, {headers:this.headers, })
+  }
+  handleOnPostComment(todoId: string, commentMsg: string, user: any) {
+    console.log()
+    return this.http.post('http://localhost:5242/api/Comment',{userName: user.user.username, todoId,userId: 3, context: commentMsg}, {headers:this.headers, })
+  }
 }
