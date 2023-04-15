@@ -29,7 +29,7 @@ export class ProjectsPageComponent {
       this.projectsPageService.handleOnAddNewProject(this.newProjectName).subscribe(data => {
         this.projects.push(data)
         this.newProjectName = ""
-        this.isAddNewProjectLoading = true
+        this.isAddNewProjectLoading = false 
       })
     }
   }
