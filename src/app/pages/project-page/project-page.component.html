@@ -76,7 +76,7 @@
                 <button (click)="isUpdatingTask = false" class="float-right">X</button>
                 <br>
                 <div class="w-full text-center">
-                    <h1>By: username</h1>
+                    <h1>By: {{selectedTask.username}}</h1>
                     <h1>created at: {{selectedTaskCreatedAt}}</h1>
                     <br>
                     <button (click)="handleOnClickDelete()" class="m-auto">Delete task</button>

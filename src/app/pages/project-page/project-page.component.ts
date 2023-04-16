@@ -16,6 +16,7 @@ interface Status {
 })
 export class ProjectPageComponent {
   projectData = JSON.parse(localStorage.getItem("project")+"")
+  userData = JSON.parse(localStorage.getItem("user")+"")
   // projectId 
   allTodos: any[] = []
   isLoadding = false
@@ -63,7 +64,7 @@ export class ProjectPageComponent {
 
   handleOnAddNewTodo() {
     if(this.newTodo) {
-      this.projectPageService.handleOnCreateNewTodo(this.newTodo, this.projectData.id)
+      this.projectPageService.handleOnCreateNewTodo(this.newTodo, this.projectData.id, this.userData.user.username, this.allTodoColTodos.length )
         .subscribe(data => {
           this.allTodoColTodos.push(data)
           this.newTodo = ""
