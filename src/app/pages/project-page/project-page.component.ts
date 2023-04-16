@@ -56,10 +56,11 @@ export class ProjectPageComponent {
     })
   }
 
-  handleOnClickDelete(todoId: string) {
-    this.projectPageService.handleOnDeleteTodoStatus(todoId)
+  handleOnClickDelete() {
+    this.projectPageService.handleOnDeleteTodoStatus(this.selectedTask.id)
     .subscribe(data => {
-      this.allTodos = this.allTodos.filter((todo: any) => todo.id !== todoId)
+      this.allTodos = this.allTodos.filter((todo: any) => todo.id !== this.selectedTask.id)
+      this.isUpdatingTask = false
     })
   }
 

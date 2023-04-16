@@ -18,8 +18,8 @@
                 </div>
                 <div *ngFor="let todo of allTodos" class="px-6 flex  items-center bg-white w-full rounded-lg my-2">
                     <div *ngIf="todo.status === 'TODO'" class="w-full flex flex-col">
-                        <div class="flex">
-                            <button (click)="handleOnClickDelete(todo.id)" class="m-auto">X</button>
+                        <div>
+                            <!-- <button (click)="handleOnClickDelete(todo.id)" class="m-auto">X</button> -->
                             <button (click)="handleOnClickMove(todo.id, todo.title, 'INPROGRACE')" class="float-right">></button>
                         </div>
                         <h2 (click)="handleOnClickTask(todo)" class="my-2">{{todo.title}}</h2>
@@ -33,9 +33,9 @@
             <div *ngIf="!isLoadding">
                 <div *ngFor="let todo of allTodos" class="px-6 flex items-center bg-white w-full rounded-lg my-2">
                     <div *ngIf="todo.status === 'INPROGRACE'" class="w-full">
-                        <div class="flex">
+                        <div class="flex justify-between">
                             <button (click)="handleOnClickMove(todo.id, todo.title, 'TODO')" class=""><</button>
-                            <button (click)="handleOnClickDelete(todo.id)" class="m-auto">X</button>
+                            <!-- <button (click)="handleOnClickDelete(todo.id)" class="m-auto">X</button> -->
                             <button (click)="handleOnClickMove(todo.id, todo.title, 'DONE')"class="float-right">></button>
                         </div>
                         <h2 class="my-2">{{todo.title}}</h2>
@@ -51,7 +51,7 @@
                     <div *ngIf="todo.status === 'DONE'" class="w-full">
                         <div class="flex ">
                             <button (click)="handleOnClickMove(todo.id, todo.title, 'INPROGRACE')"class=""><</button>
-                            <button (click)="handleOnClickDelete(todo.id)" class="m-auto">X</button>
+                            <!-- <button (click)="handleOnClickDelete(todo.id)" class="m-auto">X</button> -->
                         </div>
                         <h2 class="my-2">{{todo.title}}</h2>
                     </div>
@@ -74,6 +74,8 @@
                 <div class="w-full text-center">
                     <h1>By: username</h1>
                     <h1>created at: {{selectedTaskCreatedAt}}</h1>
+                    <br>
+                    <button (click)="handleOnClickDelete()" class="m-auto">Delete task</button>
                     <!-- <h1>updated at: {{selectedTaskUpdateAt}}</h1> -->
                     <!-- <h1>updated at: 11/12/2021</h1> -->
                 </div>
