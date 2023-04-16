@@ -127,7 +127,7 @@
             <div cdkDropList #todoList="cdkDropList" [cdkDropListData]="allTodoColTodos" [cdkDropListConnectedTo]="[progList,doneList]"
                 [ngClass]="{'bg-white w-[90%] m-2 p-1 rounded-lg': !allTodoColTodos.length}"
                 class="" (cdkDropListDropped)="drop($event)">
-                <div class="bg-white w-[90%] m-2 p-4 rounded-lg" *ngFor="let todo of allTodoColTodos" cdkDrag>{{todo.title}}</div>
+                <div class="bg-white w-[90%] m-2 p-4 rounded-lg" *ngFor="let todo of allTodoColTodos" (click)="handleOnClickTask(todo)" cdkDrag>{{todo.title}}</div>
             </div>
         </div>
         <div class="w-1/3 h-full text-center">
@@ -150,3 +150,61 @@
         </div>
     </div>
 </div>
+<div *ngIf="isUpdatingTask"
+    class=" w-5/6 h-4/5 flex bg-pink-50 overflow-auto  absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%]">
+    <div class="m-8 flex-1">
+        <div class="bg-red-600 flex w-full h-1/4">
+            <div class="bg-red-200 w-1/2 h-full flex items-center">
+                <h1 (click)="isUpdateingTodoTitle = true ; selectedTodoTitleUpdate = selectedTask.title" *ngIf="!isUpdateingTodoTitle" class="text-3xl">{{selectedTask.title}}</h1>
+                <div *ngIf="isUpdateingTodoTitle">
+                    <textarea class="w-full text-2xl p-2" [(ngModel)]="selectedTodoTitleUpdate" rows="1"></textarea>
+                    <button (click)="handleOnUpdateTodo(selectedTask.id,selectedTodoTitleUpdate, selectedTask.context, selectedTask.status, selectedTask.username, selectedTask.index) ">Update</button>
+                    <button (click)="isUpdateingTodoTitle = false">Cancel</button>
+                </div>
+            </div>
+            <div class="bg-red-300 w-1/2 h-full">
+                <button (click)="isUpdatingTask = false" class="float-right">X</button>
+                <br>
+                <div class="w-full text-center">
+                    <h1>By: {{selectedTask.username}}</h1>
+                    <h1>created at: {{selectedTaskCreatedAt}}</h1>
+                    <br>
+                    <button (click)="handleOnClickDelete()" class="m-auto">Delete task</button>
+                </div>
+            </div>
+
+        </div>
+        <div>
+            <h1>Description:</h1>
+            <br>
+            <div *ngIf="selectedTask.context" class="p-4">
+                <p (click)="isUpdateTodoContext = true" *ngIf="!isUpdateTodoContext">{{selectedTask.context}}</p>
+                <div *ngIf="isUpdateTodoContext">
+                    <textarea [(ngModel)]="selectedTodoContext" class="w-full" rows="3"></textarea>
+                    <button (click)="handleOnUpdateTodo(selectedTask.id,selectedTask.title, selectedTodoContext,selectedTask.status, selectedTask.username, selectedTask.index )">Update</button>
+                    <button (click)="isUpdateTodoContext = false ; selectedTodoContext = selectedTask.context">Cancel</button>
+                </div>
+            </div>
+            <div *ngIf="!selectedTask.context">
+                <textarea placeholder="You don't have a context, add one"  [(ngModel)]="selectedTodoContext" class="p-2 w-full" rows="3"></textarea>
+                <button (click)="handleOnUpdateTodo(selectedTask.id,selectedTask.title, selectedTodoContext, selectedTask.status, selectedTask.username, selectedTask.index )">Add</button>
+            </div>
+        </div>
+        <br>
+        <div class="flex w-full flex-col ">
+            <label for="">Comment:</label>
+            <br>
+            <textarea class="p-4 resize-none"  rows="3" [(ngModel)]="commentMsg"></textarea>
+            <button (click)="handleOnClickSendComment()" class="my-2 rounded-lg hover:bg-blue-500 bg-blue-300 mx-auto text-white py-2 px-8 w-max">Send</button>
+            <br>
+            <div *ngIf="isTodoCommentLoading">Loading...</div>
+            <div *ngIf="!isTodoCommentLoading">
+                <div *ngFor="let comment of allSelectedTodoComments">
+                    <h1>From: {{comment["userName"]}}</h1>
+                    <p class="pl-8">{{comment["context"]}}</p>
+                    <br>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> 
