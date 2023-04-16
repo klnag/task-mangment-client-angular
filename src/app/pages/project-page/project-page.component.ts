@@ -22,7 +22,9 @@ export class ProjectPageComponent {
   selectedTaskUpdateAt = ""
   commentMsg = ""
   selectedNewTodoContext = ""
+  isUpdateTodoContext = false
   isTodoCommentLoading = false
+  selectedTodoContext = ""
   constructor(private route: ActivatedRoute, private projectPageService: ProjectPageService) {
     this.projectId = this.route.snapshot.paramMap.get("id")
   }
@@ -68,13 +70,14 @@ export class ProjectPageComponent {
     this.isTodoCommentLoading = true
     this.isUpdatingTask = true
     this.selectedTask = todo
+      this.selectedTodoContext = todo.context
     console.log(todo, new Date(todo.createdAt).toLocaleString())
     this.selectedTaskCreatedAt = new Date(todo.createdAt).toLocaleString()
     this.selectedTaskUpdateAt = new Date(todo.updateddAt).toLocaleString()
     this.projectPageService.handleOnGetAllTaskComments(todo.id)
     .subscribe((data: any) => {
       this.allSelectedTodoComments = data.reverse()
-    this.isTodoCommentLoading = false 
+      this.isTodoCommentLoading = false 
     })
   }
 
@@ -93,6 +96,10 @@ export class ProjectPageComponent {
     if(this.selectedNewTodoContext) {
       this.projectPageService.handleOnUpdateTodoContext(this.selectedTask.id, this.selectedNewTodoContext)
       .subscribe(data => {
+        const temp = this.selectedTask
+        temp.context = this.selectedNewTodoContext
+        this.selectedTodoContext = this.selectedNewTodoContext
+        this.selectedTask = temp
         console.log(data)
       })
     }

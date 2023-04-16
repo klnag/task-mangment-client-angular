@@ -38,7 +38,7 @@
                             <!-- <button (click)="handleOnClickDelete(todo.id)" class="m-auto">X</button> -->
                             <button (click)="handleOnClickMove(todo.id, todo.title, 'DONE')"class="float-right">></button>
                         </div>
-                        <h2 class="my-2">{{todo.title}}</h2>
+                        <h2 (click)="handleOnClickTask(todo)" class="my-2">{{todo.title}}</h2>
                     </div>
                 </div>
             </div>
@@ -53,7 +53,7 @@
                             <button (click)="handleOnClickMove(todo.id, todo.title, 'INPROGRACE')"class=""><</button>
                             <!-- <button (click)="handleOnClickDelete(todo.id)" class="m-auto">X</button> -->
                         </div>
-                        <h2 class="my-2">{{todo.title}}</h2>
+                        <h2 (click)="handleOnClickTask(todo)" class="my-2">{{todo.title}}</h2>
                     </div>
                 </div>
             </div>
@@ -85,14 +85,21 @@
         <div>
             <h1>Description:</h1>
             <br>
-            <p *ngIf="selectedTask.context">{{selectedTask.context}}</p>
+            <div *ngIf="selectedTask.context" class="p-4">
+                <p (click)="isUpdateTodoContext = true" *ngIf="!isUpdateTodoContext">{{selectedTask.context}}</p>
+                <div *ngIf="isUpdateTodoContext">
+                    <textarea [(ngModel)]="selectedTodoContext" class="w-full" rows="3"></textarea>
+                    <button>Update</button>
+                    <button (click)="isUpdateTodoContext = false ; selectedTodoContext = selectedTask.context">Cancel</button>
+                </div>
+            </div>
             <div *ngIf="!selectedTask.context">
                 <textarea placeholder="You don't have a context, add one"  [(ngModel)]="selectedNewTodoContext" class="p-2 w-full" rows="3"></textarea>
                 <button (click)="handleOnClickUpdateSelectedTodoContext()">Add</button>
             </div>
-
         </div>
-        <div class="flex w-full flex-col p-8">
+        <br>
+        <div class="flex w-full flex-col ">
             <label for="">Comment:</label>
             <br>
             <textarea class="p-4 resize-none"  rows="3" [(ngModel)]="commentMsg"></textarea>
