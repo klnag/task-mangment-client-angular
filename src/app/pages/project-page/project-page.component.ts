@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProjectPageService } from './project-page.service';
 import { JsonPipe } from '@angular/common';
@@ -10,7 +10,9 @@ interface Status {
 @Component({
   selector: 'app-project-page',
   templateUrl: './project-page.component.html',
-  styleUrls: ['./project-page.component.css']
+  styleUrls: ['./project-page.component.css'],
+  // changeDetection: ChangeDetectionStrategy.OnPush
+
 })
 export class ProjectPageComponent {
   projectData = JSON.parse(localStorage.getItem("project")+"")
@@ -31,14 +33,30 @@ export class ProjectPageComponent {
   selectedTodoContext = ""
   isUpdateingTodoTitle = false
   selectedTodoTitleUpdate = ""
-  constructor(private route: ActivatedRoute, private projectPageService: ProjectPageService) {
+  allTodoColTodos: any[] = []
+  allInPrograceColTodos: any[] = []
+  allDoneColTodos: any[] = []
+  constructor(private route: ActivatedRoute, private cd: ChangeDetectorRef, private projectPageService: ProjectPageService) {
     // this.projectId = this.route.snapshot.paramMap.get("id")
   }
   ngOnInit() {
     this.isLoadding = true
     this.projectPageService.handleOnGetAllTodos(this.projectData.id).subscribe((data: any) => {
-      this.allTodos = data
-      console.log(data)
+      // this.allTodos = data
+      // console.log(data)
+      // const allTodoColTodosTemp: any[] = []
+      data.map((todo: any) => {
+        if(todo.status === "TODO") {
+          this.allTodoColTodos.push(todo)
+        }else if(todo.status === "INPROGRACE") {
+          this.allInPrograceColTodos.push(todo)
+        } else if(todo.status === "DONE") {
+          this.allDoneColTodos.push(todo)
+        }
+      })
+      // console.log(this.allTodoColTodos)
+      // console.log(this.allInPrograceColTodos)
+      // console.log(this.allDoneColTodos)
       this.isLoadding = false 
     })
   }
@@ -47,7 +65,7 @@ export class ProjectPageComponent {
     if(this.newTodo) {
       this.projectPageService.handleOnCreateNewTodo(this.newTodo, this.projectData.id)
         .subscribe(data => {
-          this.allTodos.push(data)
+          this.allTodoColTodos.push(data)
           this.newTodo = ""
           this.isCreatingNewTodo = false
           console.log(data)
@@ -55,26 +73,39 @@ export class ProjectPageComponent {
     }
   }
   handleOnUpdateTodo(todoId: string, title: string,context: string, status: Status) {
-    const temp = 
-    this.projectPageService.handleOnUpdateTodo(todoId,title,this.projectData.id,context,status.newStatus)
-    .subscribe(data => {
-      this.selectedTask = data
-      this.selectedTodoContext =this.selectedTask.context 
-      this.isUpdateingTodoTitle = false
-      if(status.prevStatus !== status.newStatus) {
-        const temp = this.allTodos
-        const i = temp.findIndex(todo => todo.id == todoId)
-        temp[i].status = status.newStatus
-        this.allTodos = temp
-      }
-      console.log(data)
-    })
+    // const temp = 
+    this.projectPageService.handleOnUpdateTodo(todoId, title, this.projectData.id, context, status.newStatus)
+      .subscribe(data => {
+        if (status.prevStatus !== status.newStatus) {
+          if (status.prevStatus === "TODO") {
+            this.allTodoColTodos = this.allTodoColTodos.filter(todo => todo.id !== todoId)
+            this.allInPrograceColTodos.push(data)
+          }else if (status.prevStatus === "INPROGRACE") {
+            this.allInPrograceColTodos = this.allInPrograceColTodos.filter(todo => todo.id !== todoId)
+            if(status.newStatus === "TODO") {
+              this.allTodoColTodos.push(data)
+            }else if(status.newStatus === "DONE") {
+              this.allDoneColTodos.push(data)
+            }
+          }else if (status.prevStatus === "DONE") {
+            this.allDoneColTodos = this.allDoneColTodos.filter(todo => todo.id !== todoId)
+            this.allInPrograceColTodos.push(data)
+          }
+        }
+      })
   }
 
   handleOnClickDelete() {
     this.projectPageService.handleOnDeleteTodo(this.selectedTask.id)
     .subscribe(data => {
-      this.allTodos = this.allTodos.filter((todo: any) => todo.id !== this.selectedTask.id)
+      if(this.selectedTask.status === "TODO") {
+        this.allTodoColTodos = this.allTodoColTodos.filter((todo: any) => todo.id !== this.selectedTask.id)
+      }else if(this.selectedTask.status === "INPROGRACE") {
+        this.allInPrograceColTodos = this.allInPrograceColTodos.filter((todo: any) => todo.id !== this.selectedTask.id)
+      }else if(this.selectedTask.status === "DONE") {
+        this.allDoneColTodos = this.allDoneColTodos.filter((todo: any) => todo.id !== this.selectedTask.id)
+      }
+      // this.allTodos = this.allTodos.filter((todo: any) => todo.id !== this.selectedTask.id)
       this.isUpdatingTask = false
     })
   }
