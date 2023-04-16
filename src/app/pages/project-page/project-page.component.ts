@@ -21,7 +21,7 @@ export class ProjectPageComponent {
   selectedTaskCreatedAt = ""
   selectedTaskUpdateAt = ""
   commentMsg = ""
-  selectedNewTodoContext = ""
+  // selectedNewTodoContext = ""
   isUpdateTodoContext = false
   isTodoCommentLoading = false
   selectedTodoContext = ""
@@ -48,18 +48,21 @@ export class ProjectPageComponent {
         })
     }
   }
-  handleOnClickMove(todoId: string, title: string, status: string) {
-    this.projectPageService.handleOnUpdateTodoStatus(todoId,title,this.projectId+"",status)
+  handleOnUpdateTodo(todoId: string, title: string,context: string, status: string) {
+    this.projectPageService.handleOnUpdateTodo(todoId,title,this.projectId+"",context,status)
     .subscribe(data => {
-      const temp = this.allTodos
-      const i = temp.findIndex(todo => todo.id == todoId)
-      temp[i].status = status 
-      this.allTodos = temp
+      // const temp = this.allTodos
+      // const i = temp.findIndex(todo => todo.id == todoId)
+      // temp[i].status = status 
+      // this.allTodos = temp
+      this.selectedTask = data
+      this.selectedTodoContext =this.selectedTask.context 
+      console.log(data)
     })
   }
 
   handleOnClickDelete() {
-    this.projectPageService.handleOnDeleteTodoStatus(this.selectedTask.id)
+    this.projectPageService.handleOnDeleteTodo(this.selectedTask.id)
     .subscribe(data => {
       this.allTodos = this.allTodos.filter((todo: any) => todo.id !== this.selectedTask.id)
       this.isUpdatingTask = false
@@ -92,16 +95,16 @@ export class ProjectPageComponent {
     }
   }
 
-  handleOnClickUpdateSelectedTodoContext() {
-    if(this.selectedNewTodoContext) {
-      this.projectPageService.handleOnUpdateTodoContext(this.selectedTask.id, this.selectedNewTodoContext)
-      .subscribe(data => {
-        const temp = this.selectedTask
-        temp.context = this.selectedNewTodoContext
-        this.selectedTodoContext = this.selectedNewTodoContext
-        this.selectedTask = temp
-        console.log(data)
-      })
-    }
-  }
+  // handleOnClickUpdateSelectedTodoContext() {
+  //   if(this.selectedNewTodoContext) {
+  //     this.projectPageService.handleOnUpdateTodoContext(this.selectedTask.id, this.selectedNewTodoContext)
+  //     .subscribe(data => {
+  //       const temp = this.selectedTask
+  //       temp.context = this.selectedNewTodoContext
+  //       this.selectedTodoContext = this.selectedNewTodoContext
+  //       this.selectedTask = temp
+  //       console.log(data)
+  //     })
+  //   }
+  // }
 }

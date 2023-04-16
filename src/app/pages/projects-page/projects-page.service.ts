@@ -13,10 +13,10 @@ export class ProjectsPageService {
   }
 
   handleOnGetAllProjects() {
-    return this.http.post('https://5242-klnag-taskmanagerapido-mpy2lq8e2jy.ws-us94.gitpod.io/api/Project/userprojects', {}, {headers:this.headers})
+    return this.http.post('http://localhost:5242/api/Project/userprojects', {}, {headers:this.headers})
   }
   handleOnAddNewProject(name: string) {
-    console.log(`https://5242-klnag-taskmanagerapido-mpy2lq8e2jy.ws-us94.gitpod.io/api/Project?id=${this.userData.user.id}&name=${name}`)
-    return this.http.post(`https://5242-klnag-taskmanagerapido-mpy2lq8e2jy.ws-us94.gitpod.io/api/Project`, {name}, {headers:this.headers, responseType: "json"})
+    console.log(`http://localhost:5242/api/Project?id=${this.userData.user.id}&name=${name}`)
+    return this.http.post(`http://localhost:5242/api/Project`, {name}, {headers:this.headers, responseType: "json"})
   }
 }

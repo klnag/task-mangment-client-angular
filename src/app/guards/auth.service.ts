@@ -16,7 +16,7 @@ export class AuthService {
 
   getUserInfo() {
     if (!localStorage.getItem("user")) {
-      this.http.get('https://5242-klnag-taskmanagerapido-mpy2lq8e2jy.ws-us94.gitpod.io/api/User', {
+      this.http.get('http://localhost:5242/api/User', {
         headers: { "Authorization": "Bearer " + this.cookieService.get("token") }, responseType: "json"
       }
       ).subscribe(data => {
@@ -29,7 +29,7 @@ export class AuthService {
   }
 
   singup(username: string,email: string, password: string) {
-    this.http.post("https://5242-klnag-taskmanagerapido-mpy2lq8e2jy.ws-us94.gitpod.io/api/User", {
+    this.http.post("http://localhost:5242/api/User", {
       "username": username,
       "email": email,
       "password": password 
@@ -41,7 +41,7 @@ export class AuthService {
   
   login(email: string, password: string) {
     console.log(email)
-    this.http.post("https://5242-klnag-taskmanagerapido-mpy2lq8e2jy.ws-us94.gitpod.io/api/User/login", {
+    this.http.post("http://localhost:5242/api/User/login", {
       "username": "string",
       "email": email,
       "password": password 

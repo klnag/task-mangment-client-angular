@@ -11,26 +11,28 @@ export class ProjectPageService {
   }
 
   handleOnGetAllTodos(id: string) {
-    return this.http.post('https://5242-klnag-taskmanagerapido-mpy2lq8e2jy.ws-us94.gitpod.io/api/Project/projecttodos?projectId='+id, {}, {headers:this.headers})
+    return this.http.post('http://localhost:5242/api/Project/projecttodos?projectId='+id, {}, {headers:this.headers})
   }
 
   handleOnCreateNewTodo(title: string, projectId: string) {
-    return this.http.post('https://5242-klnag-taskmanagerapido-mpy2lq8e2jy.ws-us94.gitpod.io/api/Todo', {title, projectId, context: ""}, {headers:this.headers})
+    return this.http.post('http://localhost:5242/api/Todo', {title, projectId, context: ""}, {headers:this.headers})
   }
-  handleOnUpdateTodoStatus(todoId: string,title: string, projectId: string, status: string) {
-    return this.http.patch('https://5242-klnag-taskmanagerapido-mpy2lq8e2jy.ws-us94.gitpod.io/api/Todo/status/'+todoId, {title, projectId, context: "qw", status}, {headers:this.headers, })
+  handleOnUpdateTodo(todoId: string,title: string, projectId: string, context: string, status: string) {
+    console.log(title)
+    return this.http.patch('http://localhost:5242/api/Todo/'+todoId, {title, projectId,context, status}, {headers:this.headers })
   }
-  handleOnUpdateTodoContext(todoId: string, context: string) {
-    return this.http.patch('https://5242-klnag-taskmanagerapido-mpy2lq8e2jy.ws-us94.gitpod.io/api/Todo/context/'+todoId, {title: "s", projectId: 4, context, status: "s"}, {headers:this.headers, })
-  }
-  handleOnDeleteTodoStatus(todoId: string) {
-    return this.http.delete('https://5242-klnag-taskmanagerapido-mpy2lq8e2jy.ws-us94.gitpod.io/api/Todo/'+todoId, {headers:this.headers, responseType: "text"})
+  handleOnDeleteTodo(todoId: string) {
+    return this.http.delete('http://localhost:5242/api/Todo/'+todoId, {headers:this.headers, responseType: "text"})
   }
 
+  // handleOnUpdateTodoContext(todoId: string, context: string) {
+  //   return this.http.patch('http://localhost:5242/api/Todo/context/'+todoId, {title: "s", projectId: 4, context, status: "s"}, {headers:this.headers, })
+  // }
+
   handleOnGetAllTaskComments(todoId: string) {
-    return this.http.get('https://5242-klnag-taskmanagerapido-mpy2lq8e2jy.ws-us94.gitpod.io/api/Todo/alltodocomments?todoId='+todoId, {headers:this.headers, })
+    return this.http.get('http://localhost:5242/api/Comment?todoId='+todoId, {headers:this.headers, })
   }
   handleOnPostComment(todoId: string, commentMsg: string, user: any) {
-    return this.http.post('https://5242-klnag-taskmanagerapido-mpy2lq8e2jy.ws-us94.gitpod.io/api/Comment',{userName: user.user.username, todoId,userId: 3, context: commentMsg}, {headers:this.headers, })
+    return this.http.post('http://localhost:5242/api/Comment',{userName: user.user.username, todoId,userId: 3, context: commentMsg}, {headers:this.headers, })
   }
 }
