@@ -3,6 +3,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ProjectPageService } from './project-page.service';
 import { JsonPipe } from '@angular/common';
 
+interface Status {
+  prevStatus: "TODO" | "INPROGRACE" | "DONE",
+  newStatus: "TODO" | "INPROGRACE" | "DONE",
+}
 @Component({
   selector: 'app-project-page',
   templateUrl: './project-page.component.html',
@@ -10,7 +14,7 @@ import { JsonPipe } from '@angular/common';
 })
 export class ProjectPageComponent {
   projectData = JSON.parse(localStorage.getItem("project")+"")
-  projectId 
+  // projectId 
   allTodos: any[] = []
   isLoadding = false
   newTodo = ""
@@ -25,21 +29,23 @@ export class ProjectPageComponent {
   isUpdateTodoContext = false
   isTodoCommentLoading = false
   selectedTodoContext = ""
+  isUpdateingTodoTitle = false
+  selectedTodoTitleUpdate = ""
   constructor(private route: ActivatedRoute, private projectPageService: ProjectPageService) {
-    this.projectId = this.route.snapshot.paramMap.get("id")
+    // this.projectId = this.route.snapshot.paramMap.get("id")
   }
   ngOnInit() {
     this.isLoadding = true
-    this.projectPageService.handleOnGetAllTodos(this.projectId+"").subscribe((data: any) => {
+    this.projectPageService.handleOnGetAllTodos(this.projectData.id).subscribe((data: any) => {
       this.allTodos = data
       console.log(data)
       this.isLoadding = false 
-    }, err => console.log(err))
+    })
   }
 
   handleOnAddNewTodo() {
     if(this.newTodo) {
-      this.projectPageService.handleOnCreateNewTodo(this.newTodo, this.projectId+"")
+      this.projectPageService.handleOnCreateNewTodo(this.newTodo, this.projectData.id)
         .subscribe(data => {
           this.allTodos.push(data)
           this.newTodo = ""
@@ -48,15 +54,19 @@ export class ProjectPageComponent {
         })
     }
   }
-  handleOnUpdateTodo(todoId: string, title: string,context: string, status: string) {
-    this.projectPageService.handleOnUpdateTodo(todoId,title,this.projectId+"",context,status)
+  handleOnUpdateTodo(todoId: string, title: string,context: string, status: Status) {
+    const temp = 
+    this.projectPageService.handleOnUpdateTodo(todoId,title,this.projectData.id,context,status.newStatus)
     .subscribe(data => {
-      // const temp = this.allTodos
-      // const i = temp.findIndex(todo => todo.id == todoId)
-      // temp[i].status = status 
-      // this.allTodos = temp
       this.selectedTask = data
       this.selectedTodoContext =this.selectedTask.context 
+      this.isUpdateingTodoTitle = false
+      if(status.prevStatus !== status.newStatus) {
+        const temp = this.allTodos
+        const i = temp.findIndex(todo => todo.id == todoId)
+        temp[i].status = status.newStatus
+        this.allTodos = temp
+      }
       console.log(data)
     })
   }

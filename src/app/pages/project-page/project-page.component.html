@@ -20,7 +20,7 @@
                     <div *ngIf="todo.status === 'TODO'" class="w-full flex flex-col">
                         <div>
                             <!-- <button (click)="handleOnClickDelete(todo.id)" class="m-auto">X</button> -->
-                            <button (click)="handleOnUpdateTodo(todo.id, todo.title,todo.context, 'INPROGRACE')" class="float-right">></button>
+                            <button (click)="handleOnUpdateTodo(todo.id, todo.title,todo.context, {prevStatus: 'TODO', newStatus: 'INPROGRACE'})" class="float-right">></button>
                         </div>
                         <h2 (click)="handleOnClickTask(todo)" class="my-2">{{todo.title}}</h2>
                     </div>
@@ -34,9 +34,9 @@
                 <div *ngFor="let todo of allTodos" class="px-6 flex items-center bg-white w-full rounded-lg my-2">
                     <div *ngIf="todo.status === 'INPROGRACE'" class="w-full">
                         <div class="flex justify-between">
-                            <button (click)="handleOnUpdateTodo(todo.id, todo.title, todo.context,'TODO')" class=""><</button>
+                            <button (click)="handleOnUpdateTodo(todo.id, todo.title, todo.context, {prevStatus: 'INPROGRACE', newStatus: 'TODO'})" class=""><</button>
                             <!-- <button (click)="handleOnClickDelete(todo.id)" class="m-auto">X</button> -->
-                            <button (click)="handleOnUpdateTodo(todo.id, todo.title, todo.context,'DONE')"class="float-right">></button>
+                            <button (click)="handleOnUpdateTodo(todo.id, todo.title, todo.context, {prevStatus: 'INPROGRACE', newStatus: 'DONE'})"class="float-right">></button>
                         </div>
                         <h2 (click)="handleOnClickTask(todo)" class="my-2">{{todo.title}}</h2>
                     </div>
@@ -50,7 +50,7 @@
                 <div *ngFor="let todo of allTodos" class="px-6 flex items-center bg-white w-full rounded-lg my-2">
                     <div *ngIf="todo.status === 'DONE'" class="w-full">
                         <div class="flex ">
-                            <button (click)="handleOnUpdateTodo(todo.id, todo.title, todo.context,'INPROGRACE')"class=""><</button>
+                            <button (click)="handleOnUpdateTodo(todo.id, todo.title, todo.context,{prevStatus: 'DONE', newStatus: 'INPROGRACE'})"class=""><</button>
                             <!-- <button (click)="handleOnClickDelete(todo.id)" class="m-auto">X</button> -->
                         </div>
                         <h2 (click)="handleOnClickTask(todo)" class="my-2">{{todo.title}}</h2>
@@ -65,8 +65,12 @@
     <div class="m-8 flex-1">
         <div class="bg-red-600 flex w-full h-1/4">
             <div class="bg-red-200 w-1/2 h-full flex items-center">
-
-                <h1 class="text-3xl">{{selectedTask.title}}</h1>
+                <h1 (click)="isUpdateingTodoTitle = true ; selectedTodoTitleUpdate = selectedTask.title" *ngIf="!isUpdateingTodoTitle" class="text-3xl">{{selectedTask.title}}</h1>
+                <div *ngIf="isUpdateingTodoTitle">
+                    <textarea class="w-full text-2xl p-2" [(ngModel)]="selectedTodoTitleUpdate" rows="1"></textarea>
+                    <button (click)="handleOnUpdateTodo(selectedTask.id,selectedTodoTitleUpdate, selectedTask.context, {prevStatus: selectedTask.status, newStatus: selectedTask.status})">Update</button>
+                    <button (click)="isUpdateingTodoTitle = false">Cancel</button>
+                </div>
             </div>
             <div class="bg-red-300 w-1/2 h-full">
                 <button (click)="isUpdatingTask = false" class="float-right">X</button>
@@ -95,7 +99,7 @@
             </div>
             <div *ngIf="!selectedTask.context">
                 <textarea placeholder="You don't have a context, add one"  [(ngModel)]="selectedTodoContext" class="p-2 w-full" rows="3"></textarea>
-                <button (click)="handleOnUpdateTodo(selectedTask.id,selectedTask.title, selectedTodoContext, selectedTask.status)">Add</button>
+                <button (click)="handleOnUpdateTodo(selectedTask.id,selectedTask.title, selectedTodoContext,{prevStatus: selectedTask.status, newStatus:selectedTask.status} )">Add</button>
             </div>
         </div>
         <br>
