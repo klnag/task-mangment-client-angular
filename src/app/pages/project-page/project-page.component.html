@@ -20,7 +20,7 @@
                     <div *ngIf="todo.status === 'TODO'" class="w-full flex flex-col">
                         <div>
                             <!-- <button (click)="handleOnClickDelete(todo.id)" class="m-auto">X</button> -->
-                            <button (click)="handleOnUpdateTodo(todo.id, todo.title,todo.context, {prevStatus: 'TODO', newStatus: 'INPROGRACE'})" class="float-right">></button>
+                            <button (click)="handleOnUpdateTodo(todo.id, todo.title,todo.context, {prevStatus: 'TODO', newStatus: 'INPROGRACE'}, todo.username, todo.index)" class="float-right">></button>
                         </div>
                         <h2 (click)="handleOnClickTask(todo)" class="my-2">{{todo.title}}</h2>
                     </div>
@@ -34,9 +34,9 @@
                 <div *ngFor="let todo of allInPrograceColTodos" class="px-6 flex items-center bg-white w-full rounded-lg my-2">
                     <div *ngIf="todo.status === 'INPROGRACE'" class="w-full">
                         <div class="flex justify-between">
-                            <button (click)="handleOnUpdateTodo(todo.id, todo.title, todo.context, {prevStatus: 'INPROGRACE', newStatus: 'TODO'})" class=""><</button>
+                            <button (click)="handleOnUpdateTodo(todo.id, todo.title, todo.context, {prevStatus: 'INPROGRACE', newStatus: 'TODO'}, todo.username, todo.index)" class=""><</button>
                             <!-- <button (click)="handleOnClickDelete(todo.id)" class="m-auto">X</button> -->
-                            <button (click)="handleOnUpdateTodo(todo.id, todo.title, todo.context, {prevStatus: 'INPROGRACE', newStatus: 'DONE'})"class="float-right">></button>
+                            <button (click)="handleOnUpdateTodo(todo.id, todo.title, todo.context, {prevStatus: 'INPROGRACE', newStatus: 'DONE'}, todo.username, todo.index)"class="float-right">></button>
                         </div>
                         <h2 (click)="handleOnClickTask(todo)" class="my-2">{{todo.title}}</h2>
                     </div>
@@ -50,7 +50,7 @@
                 <div *ngFor="let todo of allDoneColTodos" class="px-6 flex items-center bg-white w-full rounded-lg my-2">
                     <div *ngIf="todo.status === 'DONE'" class="w-full">
                         <div class="flex ">
-                            <button (click)="handleOnUpdateTodo(todo.id, todo.title, todo.context,{prevStatus: 'DONE', newStatus: 'INPROGRACE'})"class=""><</button>
+                            <button (click)="handleOnUpdateTodo(todo.id, todo.title, todo.context,{prevStatus: 'DONE', newStatus: 'INPROGRACE'}, todo.username, todo.index)"class=""><</button>
                             <!-- <button (click)="handleOnClickDelete(todo.id)" class="m-auto">X</button> -->
                         </div>
                         <h2 (click)="handleOnClickTask(todo)" class="my-2">{{todo.title}}</h2>
@@ -68,7 +68,7 @@
                 <h1 (click)="isUpdateingTodoTitle = true ; selectedTodoTitleUpdate = selectedTask.title" *ngIf="!isUpdateingTodoTitle" class="text-3xl">{{selectedTask.title}}</h1>
                 <div *ngIf="isUpdateingTodoTitle">
                     <textarea class="w-full text-2xl p-2" [(ngModel)]="selectedTodoTitleUpdate" rows="1"></textarea>
-                    <button (click)="handleOnUpdateTodo(selectedTask.id,selectedTodoTitleUpdate, selectedTask.context, {prevStatus: selectedTask.status, newStatus: selectedTask.status})">Update</button>
+                    <button (click)="handleOnUpdateTodo(selectedTask.id,selectedTodoTitleUpdate, selectedTask.context, {prevStatus: selectedTask.status, newStatus: selectedTask.status}, selectedTask.username, selectedTask.index) ">Update</button>
                     <button (click)="isUpdateingTodoTitle = false">Cancel</button>
                 </div>
             </div>
@@ -93,13 +93,13 @@
                 <p (click)="isUpdateTodoContext = true" *ngIf="!isUpdateTodoContext">{{selectedTask.context}}</p>
                 <div *ngIf="isUpdateTodoContext">
                     <textarea [(ngModel)]="selectedTodoContext" class="w-full" rows="3"></textarea>
-                    <button>Update</button>
+                    <button (click)="handleOnUpdateTodo(selectedTask.id,selectedTask.title, selectedTodoContext,{prevStatus: selectedTask.status, newStatus:selectedTask.status}, selectedTask.username, selectedTask.index )">Update</button>
                     <button (click)="isUpdateTodoContext = false ; selectedTodoContext = selectedTask.context">Cancel</button>
                 </div>
             </div>
             <div *ngIf="!selectedTask.context">
                 <textarea placeholder="You don't have a context, add one"  [(ngModel)]="selectedTodoContext" class="p-2 w-full" rows="3"></textarea>
-                <button (click)="handleOnUpdateTodo(selectedTask.id,selectedTask.title, selectedTodoContext,{prevStatus: selectedTask.status, newStatus:selectedTask.status} )">Add</button>
+                <button (click)="handleOnUpdateTodo(selectedTask.id,selectedTask.title, selectedTodoContext,{prevStatus: selectedTask.status, newStatus:selectedTask.status}, selectedTask.username, selectedTask.index )">Add</button>
             </div>
         </div>
         <br>

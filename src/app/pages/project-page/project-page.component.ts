@@ -73,9 +73,9 @@ export class ProjectPageComponent {
         })
     }
   }
-  handleOnUpdateTodo(todoId: string, title: string,context: string, status: Status) {
+  handleOnUpdateTodo(todoId: string, title: string,context: string, status: Status, username: string, index: number) {
     // const temp = 
-    this.projectPageService.handleOnUpdateTodo(todoId, title, this.projectData.id, context, status.newStatus)
+    this.projectPageService.handleOnUpdateTodo(todoId, title, this.projectData.id, context, status.newStatus, username, index)
       .subscribe(data => {
         if (status.prevStatus !== status.newStatus) {
           if (status.prevStatus === "TODO") {
@@ -93,6 +93,10 @@ export class ProjectPageComponent {
             this.allInPrograceColTodos.push(data)
           }
         }
+        this.isUpdateTodoContext = false
+        this.selectedTask = data
+        this.isUpdateingTodoTitle = false
+
       })
   }
 

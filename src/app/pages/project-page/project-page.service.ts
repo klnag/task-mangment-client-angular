@@ -18,8 +18,8 @@ export class ProjectPageService {
     console.log(username)
     return this.http.post('http://localhost:5242/api/Todo', {title, projectId,username, context: "", index}, {headers:this.headers})
   }
-  handleOnUpdateTodo(todoId: string,title: string, projectId: string, context: string, status: string) {
-    return this.http.patch('http://localhost:5242/api/Todo/'+todoId, {title, projectId,context, status}, {headers:this.headers })
+  handleOnUpdateTodo(todoId: string,title: string, projectId: string, context: string, status: string, username: string, index: number) {
+    return this.http.patch('http://localhost:5242/api/Todo/'+todoId, {title, projectId,context, username, index, status}, {headers:this.headers })
   }
   handleOnDeleteTodo(todoId: string) {
     return this.http.delete('http://localhost:5242/api/Todo/'+todoId, {headers:this.headers, responseType: "text"})
