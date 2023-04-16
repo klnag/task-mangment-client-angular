@@ -19,30 +19,6 @@ interface Status {
 
 })
 export class ProjectPageComponent {
-  //  todo = [
-  //   'Get to work',
-  //   'Pick up groceries',
-  //   'Go home',
-  //   'Fall asleep'
-  // ];
-
-  // inprog = [
-  //   "Count",
-  //   "read",
-  //   "jump"
-  // ]
-
-  // done = [
-  //   'Get up',
-  //   'Brush teeth',
-  //   'Take a shower',
-  //   'Check e-mail',
-  //   'Walk dog'
-  // ];
-
-
-
-
   projectData = JSON.parse(localStorage.getItem("project")+"")
   userData = JSON.parse(localStorage.getItem("user")+"")
   // projectId 
@@ -101,26 +77,26 @@ export class ProjectPageComponent {
         })
     }
   }
-  handleOnUpdateTodo(todoId: string, title: string,context: string, status: Status, username: string, index: number) {
+  handleOnUpdateTodo(todoId: string, title: string,context: string, status: string, username: string, index: number) {
     // const temp = 
-    this.projectPageService.handleOnUpdateTodo(todoId, title, this.projectData.id, context, status.newStatus, username, index)
+    this.projectPageService.handleOnUpdateTodo(todoId, title, this.projectData.id, context, status, username, index)
       .subscribe(data => {
-        if (status.prevStatus !== status.newStatus) {
-          if (status.prevStatus === "TODO") {
-            this.allTodoColTodos = this.allTodoColTodos.filter(todo => todo.id !== todoId)
-            this.allInPrograceColTodos.push(data)
-          }else if (status.prevStatus === "INPROGRACE") {
-            this.allInPrograceColTodos = this.allInPrograceColTodos.filter(todo => todo.id !== todoId)
-            if(status.newStatus === "TODO") {
-              this.allTodoColTodos.push(data)
-            }else if(status.newStatus === "DONE") {
-              this.allDoneColTodos.push(data)
-            }
-          }else if (status.prevStatus === "DONE") {
-            this.allDoneColTodos = this.allDoneColTodos.filter(todo => todo.id !== todoId)
-            this.allInPrograceColTodos.push(data)
-          }
-        }
+        // if (status.prevStatus !== status.newStatus) {
+        //   if (status.prevStatus === "TODO") {
+        //     this.allTodoColTodos = this.allTodoColTodos.filter(todo => todo.id !== todoId)
+        //     this.allInPrograceColTodos.push(data)
+        //   }else if (status.prevStatus === "INPROGRACE") {
+        //     this.allInPrograceColTodos = this.allInPrograceColTodos.filter(todo => todo.id !== todoId)
+        //     if(status.newStatus === "TODO") {
+        //       this.allTodoColTodos.push(data)
+        //     }else if(status.newStatus === "DONE") {
+        //       this.allDoneColTodos.push(data)
+        //     }
+        //   }else if (status.prevStatus === "DONE") {
+        //     this.allDoneColTodos = this.allDoneColTodos.filter(todo => todo.id !== todoId)
+        //     this.allInPrograceColTodos.push(data)
+        //   }
+        // }
         this.isUpdateTodoContext = false
         this.selectedTask = data
         this.isUpdateingTodoTitle = false
@@ -182,19 +158,46 @@ export class ProjectPageComponent {
   //   }
   // }
   drop(event: CdkDragDrop<string[]>) {
+      const i = event.previousIndex
+    if(event.previousContainer.id === "cdk-drop-list-0") {
+      const todo = this.allTodoColTodos[i]
+      if(event.container.id === "cdk-drop-list-1") {
+        this.handleOnUpdateTodo(todo.id, todo.title, todo.context, "INPROGRACE", todo.username, todo.index)
+      } else if(event.container.id === "cdk-drop-list-2") {
+        this.handleOnUpdateTodo(todo.id, todo.title, todo.context, "DONE", todo.username, todo.index)
+      }
+    }else if(event.previousContainer.id === "cdk-drop-list-1"){
+      const todo = this.allInPrograceColTodos[i]
+      if(event.container.id === "cdk-drop-list-0") {
+        this.handleOnUpdateTodo(todo.id, todo.title, todo.context, "TODO", todo.username, todo.index)
+      } else if(event.container.id === "cdk-drop-list-2") {
+        this.handleOnUpdateTodo(todo.id, todo.title, todo.context, "DONE", todo.username, todo.index)
+      }
+    }else if(event.previousContainer.id === "cdk-drop-list-2") {
+      const todo = this.allDoneColTodos[i]
+      if(event.container.id === "cdk-drop-list-0") {
+        this.handleOnUpdateTodo(todo.id, todo.title, todo.context, "TODO", todo.username, todo.index)
+      } else if(event.container.id === "cdk-drop-list-1") {
+        this.handleOnUpdateTodo(todo.id, todo.title, todo.context, "INPROGRACE", todo.username, todo.index)
+      }
+    }
     if (event.previousContainer === event.container) {
+      // console.log(event.previousIndex, event.currentIndex )
       moveItemInArray(
         event.container.data,
         event.previousIndex,
         event.currentIndex
       );
     } else {
+      const newCol = event.container.id 
+      console.log()
       transferArrayItem(
         event.previousContainer.data,
         event.container.data,
         event.previousIndex,
         event.currentIndex
       );
+      // console.log(event.previousContainer.id)
     }
   }
 }
