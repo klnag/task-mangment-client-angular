@@ -81,7 +81,7 @@ export class ProjectPageComponent {
     // const temp = 
     this.projectPageService.handleOnUpdateTodo(todoId, title, this.projectData.id, context, status, username, index)
       .subscribe(data => {
-        // if (status.prevStatus !== status.newStatus) {
+        // if (status !== status.newStatus) {
         //   if (status.prevStatus === "TODO") {
         //     this.allTodoColTodos = this.allTodoColTodos.filter(todo => todo.id !== todoId)
         //     this.allInPrograceColTodos.push(data)
@@ -97,8 +97,25 @@ export class ProjectPageComponent {
         //     this.allInPrograceColTodos.push(data)
         //   }
         // }
+        if(status == this.selectedTask.status) {
+          if(this.selectedTask.status === "TODO") {
+            const i = this.allTodoColTodos.findIndex(t => t.id === this.selectedTask.id)
+            this.allTodoColTodos[i].title = title
+            this.allTodoColTodos[i].context = context 
+          }else if(this.selectedTask.status === "INPROGRACE") {
+            const i = this.allInPrograceColTodos.findIndex(t => t.id === this.selectedTask.id)
+            this.allInPrograceColTodos[i].title = title
+            this.allInPrograceColTodos[i].context = context 
+          }else if(this.selectedTask.status === "DONE") {
+            const i = this.allDoneColTodos.findIndex(t => t.id === this.selectedTask.id)
+            this.allDoneColTodos[i].title = title
+            this.allDoneColTodos[i].context = context 
+          }
+        }
+        console.log(data)
         this.isUpdateTodoContext = false
         this.selectedTask = data
+        // this.handleOnClickTask(data)
         this.isUpdateingTodoTitle = false
 
       })
@@ -181,8 +198,8 @@ export class ProjectPageComponent {
         this.handleOnUpdateTodo(todo.id, todo.title, todo.context, "INPROGRACE", todo.username, todo.index)
       }
     }
+      console.log(123 )
     if (event.previousContainer === event.container) {
-      // console.log(event.previousIndex, event.currentIndex )
       moveItemInArray(
         event.container.data,
         event.previousIndex,
@@ -200,4 +217,5 @@ export class ProjectPageComponent {
       // console.log(event.previousContainer.id)
     }
   }
+  
 }
