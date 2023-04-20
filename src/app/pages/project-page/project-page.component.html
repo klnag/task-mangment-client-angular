@@ -9,7 +9,7 @@
             
             <br>
             <div cdkDropList #todoList="cdkDropList" [cdkDropListData]="allTodoColTodos" [cdkDropListConnectedTo]="[progList,doneList]"
-                 (cdkDropListDropped)="drop($event)" class="h-full">
+                 (cdkDropListDropped)="drop($event)" class="min-h-[70%]">
                 <div *ngIf="isCreatingNewTodo" class=" rounded-2xl w-[90%] flex m-2 flex-col bg-blue-100 p-1">
                     <textarea [(ngModel)]="newTodo" rows="2" class="rounded-xl p-2 resize-none"></textarea>
                     <div class="w-full flex ">
@@ -24,8 +24,7 @@
             <h2>In progress</h2>
             <br>
             <div cdkDropList #progList="cdkDropList" [cdkDropListData]="allInPrograceColTodos" [cdkDropListConnectedTo]="[todoList, doneList]"
-                 class="h-full" (cdkDropListDropped)="drop($event)">
-                <div  class=" w-[90%] m-2 p-1 rounded-lg"></div>
+                 class="min-h-[70%] pt-2" (cdkDropListDropped)="drop($event)">
                 <div class="bg-white w-[90%] m-2 p-4 rounded-lg" *ngFor="let todo of allInPrograceColTodos" (click)="handleOnClickTask(todo)" cdkDrag>{{todo.title}}</div>
             </div>
         </div>
@@ -33,8 +32,7 @@
             <h2>Done</h2>
             <br>
             <div cdkDropList #doneList="cdkDropList" [cdkDropListData]="allDoneColTodos" [cdkDropListConnectedTo]="[todoList, progList]"
-                class="h-full" (cdkDropListDropped)="drop($event)">
-                <div  class=" w-[90%] m-2 p-1 rounded-lg"></div>
+                class="min-h-[70%] pt-2" (cdkDropListDropped)="drop($event)">
                 <div class="bg-white w-[90%] m-2 p-4 rounded-lg" *ngFor="let todo of allDoneColTodos" (click)="handleOnClickTask(todo)" cdkDrag>{{todo.title}}</div>
             </div>
         </div>
@@ -99,7 +97,7 @@
     </div>
 </div>  -->
 
-V<div *ngIf="isUpdatingTask" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+<div *ngIf="isUpdatingTask" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
     <div class="w-3/4 sm:w-5/6 lg:w-3/4 xl:w-1/2 2xl:w-2/3 h-4/5 bg-white text-black overflow-auto rounded-2xl">
         <div class="m-8 flex-1">
             <div class="flex flex-col sm:flex-row h-1/4">
@@ -151,10 +149,10 @@ V<div *ngIf="isUpdatingTask" class="fixed inset-0 flex items-center justify-cent
                 <h1>Description:</h1>
                 <br>
                 <div *ngIf="selectedTask.context" class="p-4">
-                    <p class="m-4" (click)="isUpdateTodoContext = true" *ngIf="!isUpdateTodoContext">{{selectedTask.context}}</p>
+                    <p class="m-4" (click)="isUpdateTodoContext = true" *ngIf="!isUpdateTodoContext" [innerHTML]="this.stringTOHtml(selectedTask.context)"></p>
                     <div *ngIf="isUpdateTodoContext">
                         <textarea [(ngModel)]="selectedTodoContext"
-                            class="p-4 border resize-none border-blue-500 rounded-lg w-full" rows="3"></textarea>
+                            class="p-4 border resize-none  rounded-lg w-full" rows="3"></textarea>
                         <button class="bg-blue-300 mr-4 text-white py-2 px-4 rounded-md"
                             (click)="handleOnUpdateTodo(selectedTask.id,selectedTask.title, selectedTodoContext,selectedTask.status, selectedTask.username, selectedTask.index )">Update</button>
                         <button class="bg-gray-100  py-2 px-4 rounded-md"
@@ -163,11 +161,26 @@ V<div *ngIf="isUpdatingTask" class="fixed inset-0 flex items-center justify-cent
                 </div>
                 <div *ngIf="!selectedTask.context">
                     <textarea placeholder="You don't have a context, add one" [(ngModel)]="selectedTodoContext"
-                        class="border border-blue-500 rounded-lg resize-none p-2 w-full" rows="3"></textarea>
+                        class="border  rounded-lg resize-none p-2 w-full" rows="3"></textarea>
                     <button class="bg-blue-300 text-white py-2 px-4 rounded-md"
                         (click)="handleOnUpdateTodo(selectedTask.id,selectedTask.title, selectedTodoContext, selectedTask.status, selectedTask.username, selectedTask.index )">Add</button>
                 </div>
             </div>
+        <div class="flex w-full flex-col ">
+            <label for="">Comment:</label>
+            <br>
+            <textarea class="p-4 resize-none border border-blue-500 rounded-lg " placeholder="Write a comment for people to see" rows="3" [(ngModel)]="commentMsg"></textarea>
+            <button (click)="handleOnClickSendComment()" class="my-2 rounded-lg hover:bg-blue-500 bg-blue-300 mx-auto text-white py-2 px-8 w-max">Send</button>
+            <br>
+            <div *ngIf="isTodoCommentLoading">Loading...</div>
+            <div *ngIf="!isTodoCommentLoading">
+                <div *ngFor="let comment of allSelectedTodoComments">
+                    <h1>From: {{comment["userName"]}}</h1>
+                    <p class="pl-8">{{comment["context"]}}</p>
+                    <br>
+                </div>
+            </div>
         </div>
+    </div>
     </div>
 </div>
