@@ -45,6 +45,8 @@ export class ProjectPageComponent {
     // this.projectId = this.route.snapshot.paramMap.get("id")
   }
   ngOnInit() {
+
+    this.stringTOHtml("Hi\n there\n")
     this.isLoadding = true
     this.projectPageService.handleOnGetAllTodos(this.projectData.id).subscribe((data: any) => {
       // this.allTodos = data
@@ -216,6 +218,20 @@ export class ProjectPageComponent {
       );
       // console.log(event.previousContainer.id)
     }
+  }
+
+  stringTOHtml(str: string) {
+    let res = ""
+    for(let i = 0; i < str.length; i++) {
+      if(str[i] === '\n') {
+        res += '<br>'
+      }else {
+        res += str[i]
+      }
+    }
+
+    console.log(res)
+    return res
   }
   
 }
