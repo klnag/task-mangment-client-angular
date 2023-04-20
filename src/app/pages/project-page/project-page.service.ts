@@ -35,4 +35,7 @@ export class ProjectPageService {
   handleOnPostComment(todoId: string, commentMsg: string, user: any) {
     return this.http.post('http://localhost:5242/api/Comment',{userName: user.user.username, todoId,userId: 3, context: commentMsg}, {headers:this.headers, })
   }
+  handleOnChangePosTask(todoId: any, newPos: number, status: string) {
+    return this.http.put(`http://localhost:5242/api/Todo/${todoId}/position`,{title : "fsd", projectId: 1,context: "fsd", username:"fsd", index: newPos, status}, {headers:this.headers, })
+  }
 }

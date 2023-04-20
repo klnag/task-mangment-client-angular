@@ -54,16 +54,17 @@ export class ProjectPageComponent {
       // const allTodoColTodosTemp: any[] = []
       data.map((todo: any) => {
         if(todo.status === "TODO") {
-          this.allTodoColTodos.push(todo)
+          this.allTodoColTodos[todo.index] = todo
+          // this.allTodoColTodos.push(todo)
         }else if(todo.status === "INPROGRACE") {
-          this.allInPrograceColTodos.push(todo)
+          this.allInPrograceColTodos[todo.index] = todo
         } else if(todo.status === "DONE") {
-          this.allDoneColTodos.push(todo)
+          this.allDoneColTodos[todo.index] = todo
         }
       })
-      // console.log(this.allTodoColTodos)
-      // console.log(this.allInPrograceColTodos)
-      // console.log(this.allDoneColTodos)
+      console.log(this.allTodoColTodos)
+      console.log(this.allInPrograceColTodos)
+      console.log(this.allDoneColTodos)
       this.isLoadding = false 
     })
   }
@@ -181,27 +182,46 @@ export class ProjectPageComponent {
     if(event.previousContainer.id === "cdk-drop-list-0") {
       const todo = this.allTodoColTodos[i]
       if(event.container.id === "cdk-drop-list-1") {
-        this.handleOnUpdateTodo(todo.id, todo.title, todo.context, "INPROGRACE", todo.username, todo.index)
+        // this.handleOnUpdateTodo(todo.id, todo.title, todo.context, "INPROGRACE", todo.username, todo.index)
+        this.projectPageService.handleOnChangePosTask(todo.id, event.currentIndex, "INPROGRACE").subscribe()
       } else if(event.container.id === "cdk-drop-list-2") {
-        this.handleOnUpdateTodo(todo.id, todo.title, todo.context, "DONE", todo.username, todo.index)
+        // this.handleOnUpdateTodo(todo.id, todo.title, todo.context, "DONE", todo.username, todo.index)
+        this.projectPageService.handleOnChangePosTask(todo.id, event.currentIndex, "DONE").subscribe()
       }
     }else if(event.previousContainer.id === "cdk-drop-list-1"){
       const todo = this.allInPrograceColTodos[i]
       if(event.container.id === "cdk-drop-list-0") {
-        this.handleOnUpdateTodo(todo.id, todo.title, todo.context, "TODO", todo.username, todo.index)
+        // this.handleOnUpdateTodo(todo.id, todo.title, todo.context, "TODO", todo.username, todo.index)
+        this.projectPageService.handleOnChangePosTask(todo.id, event.currentIndex, "TODO").subscribe()
       } else if(event.container.id === "cdk-drop-list-2") {
-        this.handleOnUpdateTodo(todo.id, todo.title, todo.context, "DONE", todo.username, todo.index)
+        // this.handleOnUpdateTodo(todo.id, todo.title, todo.context, "DONE", todo.username, todo.index)
+        this.projectPageService.handleOnChangePosTask(todo.id, event.currentIndex, "DONE").subscribe()
       }
     }else if(event.previousContainer.id === "cdk-drop-list-2") {
       const todo = this.allDoneColTodos[i]
       if(event.container.id === "cdk-drop-list-0") {
-        this.handleOnUpdateTodo(todo.id, todo.title, todo.context, "TODO", todo.username, todo.index)
+        // this.handleOnUpdateTodo(todo.id, todo.title, todo.context, "TODO", todo.username, todo.index)
+        this.projectPageService.handleOnChangePosTask(todo.id, event.currentIndex, "TODO").subscribe()
       } else if(event.container.id === "cdk-drop-list-1") {
-        this.handleOnUpdateTodo(todo.id, todo.title, todo.context, "INPROGRACE", todo.username, todo.index)
+        // this.handleOnUpdateTodo(todo.id, todo.title, todo.context, "INPROGRACE", todo.username, todo.index)
+        this.projectPageService.handleOnChangePosTask(todo.id, event.currentIndex, "INPROGRACE").subscribe()
       }
     }
-      console.log(123 )
+    
+    // if (event.previousContainer.id === "cdk-drop-list-0") {
+    //   const todo = this.allTodoColTodos[i]
+    //   if (event.container.id === "cdk-drop-list-1") {
+    //     this.projectPageService.handleOnChangePosTask(todo.id, event.currentIndex, "INPROGRACE")
+    //       .subscribe(data => {
+    //         console.log(data)
+    //         console.log(this.allTodoColTodos)
+    //         console.log(this.allInPrograceColTodos)
+    //       })
+    //   }
+    // }
+
     if (event.previousContainer === event.container) {
+
       moveItemInArray(
         event.container.data,
         event.previousIndex,
