@@ -54,12 +54,14 @@ export class ProjectPageComponent {
       // const allTodoColTodosTemp: any[] = []
       data.map((todo: any) => {
         if(todo.status === "TODO") {
-          this.allTodoColTodos[todo.index] = todo
-          // this.allTodoColTodos.push(todo)
+          // this.allTodoColTodos[todo.index] = todo
+          this.allTodoColTodos.push(todo)
         }else if(todo.status === "INPROGRACE") {
-          this.allInPrograceColTodos[todo.index] = todo
+          // this.allInPrograceColTodos[todo.index] = todo
+          this.allInPrograceColTodos.push(todo)
         } else if(todo.status === "DONE") {
-          this.allDoneColTodos[todo.index] = todo
+          // this.allDoneColTodos[todo.index] = todo
+          this.allDoneColTodos.push(todo)
         }
       })
       console.log(this.allTodoColTodos)
@@ -178,35 +180,44 @@ export class ProjectPageComponent {
   //   }
   // }
   drop(event: CdkDragDrop<string[]>) {
-      const i = event.previousIndex
-    if(event.previousContainer.id === "cdk-drop-list-0") {
-      const todo = this.allTodoColTodos[i]
-      if(event.container.id === "cdk-drop-list-1") {
-        // this.handleOnUpdateTodo(todo.id, todo.title, todo.context, "INPROGRACE", todo.username, todo.index)
-        this.projectPageService.handleOnChangePosTask(todo.id, event.currentIndex, "INPROGRACE").subscribe()
-      } else if(event.container.id === "cdk-drop-list-2") {
-        // this.handleOnUpdateTodo(todo.id, todo.title, todo.context, "DONE", todo.username, todo.index)
-        this.projectPageService.handleOnChangePosTask(todo.id, event.currentIndex, "DONE").subscribe()
-      }
-    }else if(event.previousContainer.id === "cdk-drop-list-1"){
-      const todo = this.allInPrograceColTodos[i]
-      if(event.container.id === "cdk-drop-list-0") {
-        // this.handleOnUpdateTodo(todo.id, todo.title, todo.context, "TODO", todo.username, todo.index)
-        this.projectPageService.handleOnChangePosTask(todo.id, event.currentIndex, "TODO").subscribe()
-      } else if(event.container.id === "cdk-drop-list-2") {
-        // this.handleOnUpdateTodo(todo.id, todo.title, todo.context, "DONE", todo.username, todo.index)
-        this.projectPageService.handleOnChangePosTask(todo.id, event.currentIndex, "DONE").subscribe()
-      }
-    }else if(event.previousContainer.id === "cdk-drop-list-2") {
-      const todo = this.allDoneColTodos[i]
-      if(event.container.id === "cdk-drop-list-0") {
-        // this.handleOnUpdateTodo(todo.id, todo.title, todo.context, "TODO", todo.username, todo.index)
-        this.projectPageService.handleOnChangePosTask(todo.id, event.currentIndex, "TODO").subscribe()
-      } else if(event.container.id === "cdk-drop-list-1") {
-        // this.handleOnUpdateTodo(todo.id, todo.title, todo.context, "INPROGRACE", todo.username, todo.index)
-        this.projectPageService.handleOnChangePosTask(todo.id, event.currentIndex, "INPROGRACE").subscribe()
-      }
-    }
+      // const i = event.previousIndex
+
+      
+
+    // if(event.previousContainer.id === "cdk-drop-list-0") {
+    //   const todo = this.allTodoColTodos[i]
+    //   if(event.container.id === "cdk-drop-list-1") {
+    //     // this.handleOnUpdateTodo(todo.id, todo.title, todo.context, "INPROGRACE", todo.username, todo.index)
+    //   const newIndex = this.allInPrograceColTodos.length > 0 ? this.allInPrograceColTodos[event.currentIndex - 1].index - 0.01 : 0
+    //     this.projectPageService.handleOnChangePosTask(todo.id, newIndex, "INPROGRACE").subscribe()
+    //   } else if(event.container.id === "cdk-drop-list-2") {
+    //     // this.handleOnUpdateTodo(todo.id, todo.title, todo.context, "DONE", todo.username, todo.index)
+    //   const newIndex = this.allInPrograceColTodos.length > 0 ? this.allInPrograceColTodos[event.currentIndex].index - 0.01 : 0
+    //     this.projectPageService.handleOnChangePosTask(todo.id, newIndex, "DONE").subscribe()
+    //   }
+    // }else if(event.previousContainer.id === "cdk-drop-list-1"){
+    //   const todo = this.allInPrograceColTodos[i]
+    //   if(event.container.id === "cdk-drop-list-0") {
+    //     // this.handleOnUpdateTodo(todo.id, todo.title, todo.context, "TODO", todo.username, todo.index)
+    //   const newIndex = this.allTodoColTodos.length > 0 ? this.allTodoColTodos[event.currentIndex].index - 0.01 : 0
+    //     this.projectPageService.handleOnChangePosTask(todo.id, newIndex, "TODO").subscribe()
+    //   } else if(event.container.id === "cdk-drop-list-2") {
+    //     // this.handleOnUpdateTodo(todo.id, todo.title, todo.context, "DONE", todo.username, todo.index)
+    //   const newIndex = this.allDoneColTodos.length > 0 ? this.allDoneColTodos[event.currentIndex].index - 0.01 : 0
+    //     this.projectPageService.handleOnChangePosTask(todo.id, newIndex, "DONE").subscribe()
+    //   }
+    // }else if(event.previousContainer.id === "cdk-drop-list-2") {
+    //   const todo = this.allDoneColTodos[i]
+    //   if(event.container.id === "cdk-drop-list-0") {
+    //     // this.handleOnUpdateTodo(todo.id, todo.title, todo.context, "TODO", todo.username, todo.index)
+    //   const newIndex = this.allTodoColTodos.length > 0 ? this.allTodoColTodos[event.currentIndex].index - 0.01 : 0
+    //     this.projectPageService.handleOnChangePosTask(todo.id, newIndex, "TODO").subscribe()
+    //   } else if(event.container.id === "cdk-drop-list-1") {
+    //     // this.handleOnUpdateTodo(todo.id, todo.title, todo.context, "INPROGRACE", todo.username, todo.index)
+    //   const newIndex = this.allInPrograceColTodos.length > 0 ? this.allInPrograceColTodos[event.currentIndex].index - 0.01 : 0
+    //     this.projectPageService.handleOnChangePosTask(todo.id, newIndex, "INPROGRACE").subscribe()
+    //   }
+    // }
     
     // if (event.previousContainer.id === "cdk-drop-list-0") {
     //   const todo = this.allTodoColTodos[i]
@@ -220,6 +231,41 @@ export class ProjectPageComponent {
     //   }
     // }
 
+
+    // if (event.container.id === "cdk-drop-list-0") {
+    //   const newIndex = this.allTodoColTodos[event.currentIndex].index - 0.01
+    //   const todo = this.allTodoColTodos[i]
+    //   this.projectPageService.handleOnChangePosTask(todo.id, newIndex, "TODO")
+    //     .subscribe(data => {
+    //       console.log(data)
+    //     })
+    // } else if (event.container.id === "cdk-drop-list-1") {
+    //   const newIndex = this.allInPrograceColTodos.length > 0 ? this.allInPrograceColTodos[event.currentIndex].index - 0.01 : 0
+    //   let todo: any = {}
+    //   if (event.previousContainer.id === "cdk-drop-list-0") {
+    //     todo = this.allTodoColTodos[i]
+    //     this.projectPageService.handleOnChangePosTask(todo.id, newIndex, "INPROGRACE")
+    //       .subscribe(data => {
+    //         console.log(data)
+    //       })
+    //   } else if (event.previousContainer.id === "cdk-drop-list-2") {
+    //     todo = this.allDoneColTodos[i]
+    //     this.projectPageService.handleOnChangePosTask(todo.id, newIndex, "INPROGRACE")
+    //       .subscribe(data => {
+    //         console.log(data)
+    //       })
+    //   }
+
+    // } else if (event.container.id === "cdk-drop-list-2") {
+    //   const newIndex = this.allDoneColTodos[event.currentIndex].index - 0.01
+    //   const todo = this.allDoneColTodos[i]
+    //   this.projectPageService.handleOnChangePosTask(todo.id, newIndex, "DONE")
+    //     .subscribe(data => {
+    //       console.log(data)
+    //     })
+    // } 
+
+
     if (event.previousContainer === event.container) {
 
       moveItemInArray(
@@ -228,15 +274,28 @@ export class ProjectPageComponent {
         event.currentIndex
       );
     } else {
-      const newCol = event.container.id 
-      console.log()
+       
+      
+      
       transferArrayItem(
         event.previousContainer.data,
         event.container.data,
         event.previousIndex,
         event.currentIndex
-      );
-      // console.log(event.previousContainer.id)
+        );
+
+        let newIndex = 0
+        if (event.previousContainer.id === "cdk-drop-list-0") {
+          const todo = this.allInPrograceColTodos[event.currentIndex]
+          console.log(todo.title)
+          if (event.container.id === "cdk-drop-list-1") {
+            if (this.allInPrograceColTodos.length) {
+              if (this.allInPrograceColTodos[event.currentIndex]) newIndex = this.allInPrograceColTodos[event.currentIndex].index - 0.01
+              else newIndex = this.allInPrograceColTodos[event.currentIndex - 1].index + 0.01
+            }
+            this.projectPageService.handleOnChangePosTask(todo.id, newIndex, "INPROGRACE").subscribe()
+          } 
+        }
     }
   }
 
