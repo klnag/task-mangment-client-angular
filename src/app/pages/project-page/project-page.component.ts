@@ -153,48 +153,18 @@ export class ProjectPageComponent {
         );
     }
 
-      let newIndex = 0
-      let todoArr: any[] = []
-      let todoStatus = ""
+    let newIndex = 0
+    let todoArr: any[] = []
+    let todoStatus = ""
     if(event.container.id === "cdk-drop-list-0") {
       todoArr = this.allTodoColTodos
       todoStatus = "TODO"
-      // const todo = this.allTodoColTodos[event.currentIndex]
-      // if(this.allTodoColTodos[event.currentIndex + 1] && this.allTodoColTodos[event.currentIndex - 1]) {
-      //   newIndex = (this.allTodoColTodos[event.currentIndex + 1].index - this.allTodoColTodos[event.currentIndex - 1].index) / 2
-      // }else if(this.allTodoColTodos[event.currentIndex + 1]) {
-      //   newIndex = this.allTodoColTodos[event.currentIndex + 1].index - 0.01 
-      // } else if(this.allTodoColTodos[event.currentIndex - 1]) {
-      //   newIndex = this.allTodoColTodos[event.currentIndex - 1].index + 0.01 
-      // }
-      // this.allTodoColTodos[event.currentIndex].index = newIndex
-      // this.projectPageService.handleOnChangePosTask(todo.id, newIndex, "TODO").subscribe()
     }else if(event.container.id === "cdk-drop-list-1") {
       todoArr = this.allInPrograceColTodos
       todoStatus = "INPROGRACE"
-      // const todo = this.allInPrograceColTodos[event.currentIndex]
-      // if(this.allInPrograceColTodos[event.currentIndex + 1] && this.allInPrograceColTodos[event.currentIndex - 1]) {
-      //   newIndex = (this.allInPrograceColTodos[event.currentIndex + 1].index - this.allInPrograceColTodos[event.currentIndex - 1].index) / 2
-      // }else if(this.allInPrograceColTodos[event.currentIndex + 1]) {
-      //   newIndex = this.allInPrograceColTodos[event.currentIndex + 1].index - 0.01 
-      // } else if(this.allInPrograceColTodos[event.currentIndex - 1]) {
-      //   newIndex = this.allInPrograceColTodos[event.currentIndex - 1].index + 0.01 
-      // }
-      // this.allInPrograceColTodos[event.currentIndex].index = newIndex
-      // this.projectPageService.handleOnChangePosTask(todo.id, newIndex, "INPROGRACE").subscribe()
     }else if(event.container.id === "cdk-drop-list-2") {
       todoArr = this.allDoneColTodos
       todoStatus = "DONE"
-      // const todo = this.allDoneColTodos[event.currentIndex]
-      // if(this.allDoneColTodos[event.currentIndex + 1] && this.allDoneColTodos[event.currentIndex - 1]) {
-      //   newIndex = (this.allDoneColTodos[event.currentIndex + 1].index - this.allDoneColTodos[event.currentIndex - 1].index) / 2
-      // }else if(this.allDoneColTodos[event.currentIndex + 1]) {
-      //   newIndex = this.allDoneColTodos[event.currentIndex + 1].index - 0.01 
-      // } else if(this.allDoneColTodos[event.currentIndex - 1]) {
-      //   newIndex = this.allDoneColTodos[event.currentIndex - 1].index + 0.01 
-      // }
-      // this.allDoneColTodos[event.currentIndex].index = newIndex
-      // this.projectPageService.handleOnChangePosTask(todo.id, newIndex, "DONE").subscribe()
     }
 
       const todo = todoArr[event.currentIndex]
@@ -208,7 +178,7 @@ export class ProjectPageComponent {
       todoArr[event.currentIndex].index = newIndex
       console.log(newIndex)
       console.log(todoArr)
-      this.projectPageService.handleOnChangePosTask(todo.id, newIndex, todoStatus).subscribe()
+      this.projectPageService.handleOnUpdateTodo(todo.id, todo.title,todo.projectId,todo.context,todoStatus, todo.username, newIndex).subscribe()
   }
 
   stringTOHtml(str: string) {

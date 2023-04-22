@@ -19,6 +19,7 @@ export class ProjectPageService {
     return this.http.post('http://localhost:5242/api/Todo', {title, projectId,username, context: "", index}, {headers:this.headers})
   }
   handleOnUpdateTodo(todoId: string,title: string, projectId: string, context: string, status: string, username: string, index: number) {
+    console.log({title, projectId,context, username, index, status})
     return this.http.patch('http://localhost:5242/api/Todo/'+todoId, {title, projectId,context, username, index, status}, {headers:this.headers })
   }
   handleOnDeleteTodo(todoId: string) {
@@ -35,7 +36,7 @@ export class ProjectPageService {
   handleOnPostComment(todoId: string, commentMsg: string, user: any) {
     return this.http.post('http://localhost:5242/api/Comment',{userName: user.user.username, todoId,userId: 3, context: commentMsg}, {headers:this.headers, })
   }
-  handleOnChangePosTask(todoId: any, newPos: number, status: string) {
-    return this.http.put(`http://localhost:5242/api/Todo/${todoId}/position`,{title : "fsd", projectId: 1,context: "fsd", username:"fsd", index: newPos, status}, {headers:this.headers, })
-  }
+  // handleOnChangePosTask(todoId: any, newPos: number, status: string) {
+  //   return this.http.put(`http://localhost:5242/api/Todo/${todoId}/position`,{title : "fsd", projectId: 1,context: "fsd", username:"fsd", index: newPos, status}, {headers:this.headers, })
+  // }
 }
