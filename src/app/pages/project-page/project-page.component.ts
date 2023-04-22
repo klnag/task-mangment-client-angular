@@ -15,14 +15,11 @@ interface Status {
   selector: 'app-project-page',
   templateUrl: './project-page.component.html',
   styleUrls: ['./project-page.component.css'],
-  // changeDetection: ChangeDetectionStrategy.OnPush
 
 })
 export class ProjectPageComponent {
   projectData = JSON.parse(localStorage.getItem("project")+"")
   userData = JSON.parse(localStorage.getItem("user")+"")
-  // projectId 
-  allTodos: any[] = []
   isLoadding = false
   newTodo = ""
   selectedTask: any = {}
@@ -32,7 +29,6 @@ export class ProjectPageComponent {
   selectedTaskCreatedAt = ""
   selectedTaskUpdateAt = ""
   commentMsg = ""
-  // selectedNewTodoContext = ""
   isUpdateTodoContext = false
   isTodoCommentLoading = false
   selectedTodoContext = ""
@@ -42,25 +38,18 @@ export class ProjectPageComponent {
   allInPrograceColTodos: any[] = []
   allDoneColTodos: any[] = []
   constructor(private route: ActivatedRoute, private cd: ChangeDetectorRef, private projectPageService: ProjectPageService) {
-    // this.projectId = this.route.snapshot.paramMap.get("id")
   }
   ngOnInit() {
 
     this.stringTOHtml("Hi\n there\n")
     this.isLoadding = true
     this.projectPageService.handleOnGetAllTodos(this.projectData.id).subscribe((data: any) => {
-      // this.allTodos = data
-      // console.log(data)
-      // const allTodoColTodosTemp: any[] = []
       data.map((todo: any) => {
         if(todo.status === "TODO") {
-          // this.allTodoColTodos[todo.index] = todo
           this.allTodoColTodos.push(todo)
         }else if(todo.status === "INPROGRACE") {
-          // this.allInPrograceColTodos[todo.index] = todo
           this.allInPrograceColTodos.push(todo)
         } else if(todo.status === "DONE") {
-          // this.allDoneColTodos[todo.index] = todo
           this.allDoneColTodos.push(todo)
         }
       })
@@ -83,25 +72,8 @@ export class ProjectPageComponent {
     }
   }
   handleOnUpdateTodo(todoId: string, title: string,context: string, status: string, username: string, index: number) {
-    // const temp = 
     this.projectPageService.handleOnUpdateTodo(todoId, title, this.projectData.id, context, status, username, index)
       .subscribe(data => {
-        // if (status !== status.newStatus) {
-        //   if (status.prevStatus === "TODO") {
-        //     this.allTodoColTodos = this.allTodoColTodos.filter(todo => todo.id !== todoId)
-        //     this.allInPrograceColTodos.push(data)
-        //   }else if (status.prevStatus === "INPROGRACE") {
-        //     this.allInPrograceColTodos = this.allInPrograceColTodos.filter(todo => todo.id !== todoId)
-        //     if(status.newStatus === "TODO") {
-        //       this.allTodoColTodos.push(data)
-        //     }else if(status.newStatus === "DONE") {
-        //       this.allDoneColTodos.push(data)
-        //     }
-        //   }else if (status.prevStatus === "DONE") {
-        //     this.allDoneColTodos = this.allDoneColTodos.filter(todo => todo.id !== todoId)
-        //     this.allInPrograceColTodos.push(data)
-        //   }
-        // }
         if(status == this.selectedTask.status) {
           if(this.selectedTask.status === "TODO") {
             const i = this.allTodoColTodos.findIndex(t => t.id === this.selectedTask.id)
@@ -120,7 +92,6 @@ export class ProjectPageComponent {
         console.log(data)
         this.isUpdateTodoContext = false
         this.selectedTask = data
-        // this.handleOnClickTask(data)
         this.isUpdateingTodoTitle = false
 
       })
@@ -136,7 +107,6 @@ export class ProjectPageComponent {
       }else if(this.selectedTask.status === "DONE") {
         this.allDoneColTodos = this.allDoneColTodos.filter((todo: any) => todo.id !== this.selectedTask.id)
       }
-      // this.allTodos = this.allTodos.filter((todo: any) => todo.id !== this.selectedTask.id)
       this.isUpdatingTask = false
     })
   }
@@ -167,218 +137,78 @@ export class ProjectPageComponent {
     }
   }
 
-  // handleOnClickUpdateSelectedTodoContext() {
-  //   if(this.selectedNewTodoContext) {
-  //     this.projectPageService.handleOnUpdateTodoContext(this.selectedTask.id, this.selectedNewTodoContext)
-  //     .subscribe(data => {
-  //       const temp = this.selectedTask
-  //       temp.context = this.selectedNewTodoContext
-  //       this.selectedTodoContext = this.selectedNewTodoContext
-  //       this.selectedTask = temp
-  //       console.log(data)
-  //     })
-  //   }
-  // }
   drop(event: CdkDragDrop<string[]>) {
-      // const i = event.previousIndex
-
-      
-
-    // if(event.previousContainer.id === "cdk-drop-list-0") {
-    //   const todo = this.allTodoColTodos[i]
-    //   if(event.container.id === "cdk-drop-list-1") {
-    //     // this.handleOnUpdateTodo(todo.id, todo.title, todo.context, "INPROGRACE", todo.username, todo.index)
-    //   const newIndex = this.allInPrograceColTodos.length > 0 ? this.allInPrograceColTodos[event.currentIndex - 1].index - 0.01 : 0
-    //     this.projectPageService.handleOnChangePosTask(todo.id, newIndex, "INPROGRACE").subscribe()
-    //   } else if(event.container.id === "cdk-drop-list-2") {
-    //     // this.handleOnUpdateTodo(todo.id, todo.title, todo.context, "DONE", todo.username, todo.index)
-    //   const newIndex = this.allInPrograceColTodos.length > 0 ? this.allInPrograceColTodos[event.currentIndex].index - 0.01 : 0
-    //     this.projectPageService.handleOnChangePosTask(todo.id, newIndex, "DONE").subscribe()
-    //   }
-    // }else if(event.previousContainer.id === "cdk-drop-list-1"){
-    //   const todo = this.allInPrograceColTodos[i]
-    //   if(event.container.id === "cdk-drop-list-0") {
-    //     // this.handleOnUpdateTodo(todo.id, todo.title, todo.context, "TODO", todo.username, todo.index)
-    //   const newIndex = this.allTodoColTodos.length > 0 ? this.allTodoColTodos[event.currentIndex].index - 0.01 : 0
-    //     this.projectPageService.handleOnChangePosTask(todo.id, newIndex, "TODO").subscribe()
-    //   } else if(event.container.id === "cdk-drop-list-2") {
-    //     // this.handleOnUpdateTodo(todo.id, todo.title, todo.context, "DONE", todo.username, todo.index)
-    //   const newIndex = this.allDoneColTodos.length > 0 ? this.allDoneColTodos[event.currentIndex].index - 0.01 : 0
-    //     this.projectPageService.handleOnChangePosTask(todo.id, newIndex, "DONE").subscribe()
-    //   }
-    // }else if(event.previousContainer.id === "cdk-drop-list-2") {
-    //   const todo = this.allDoneColTodos[i]
-    //   if(event.container.id === "cdk-drop-list-0") {
-    //     // this.handleOnUpdateTodo(todo.id, todo.title, todo.context, "TODO", todo.username, todo.index)
-    //   const newIndex = this.allTodoColTodos.length > 0 ? this.allTodoColTodos[event.currentIndex].index - 0.01 : 0
-    //     this.projectPageService.handleOnChangePosTask(todo.id, newIndex, "TODO").subscribe()
-    //   } else if(event.container.id === "cdk-drop-list-1") {
-    //     // this.handleOnUpdateTodo(todo.id, todo.title, todo.context, "INPROGRACE", todo.username, todo.index)
-    //   const newIndex = this.allInPrograceColTodos.length > 0 ? this.allInPrograceColTodos[event.currentIndex].index - 0.01 : 0
-    //     this.projectPageService.handleOnChangePosTask(todo.id, newIndex, "INPROGRACE").subscribe()
-    //   }
-    // }
-    
-    // if (event.previousContainer.id === "cdk-drop-list-0") {
-    //   const todo = this.allTodoColTodos[i]
-    //   if (event.container.id === "cdk-drop-list-1") {
-    //     this.projectPageService.handleOnChangePosTask(todo.id, event.currentIndex, "INPROGRACE")
-    //       .subscribe(data => {
-    //         console.log(data)
-    //         console.log(this.allTodoColTodos)
-    //         console.log(this.allInPrograceColTodos)
-    //       })
-    //   }
-    // }
-
-
-    // if (event.container.id === "cdk-drop-list-0") {
-    //   const newIndex = this.allTodoColTodos[event.currentIndex].index - 0.01
-    //   const todo = this.allTodoColTodos[i]
-    //   this.projectPageService.handleOnChangePosTask(todo.id, newIndex, "TODO")
-    //     .subscribe(data => {
-    //       console.log(data)
-    //     })
-    // } else if (event.container.id === "cdk-drop-list-1") {
-    //   const newIndex = this.allInPrograceColTodos.length > 0 ? this.allInPrograceColTodos[event.currentIndex].index - 0.01 : 0
-    //   let todo: any = {}
-    //   if (event.previousContainer.id === "cdk-drop-list-0") {
-    //     todo = this.allTodoColTodos[i]
-    //     this.projectPageService.handleOnChangePosTask(todo.id, newIndex, "INPROGRACE")
-    //       .subscribe(data => {
-    //         console.log(data)
-    //       })
-    //   } else if (event.previousContainer.id === "cdk-drop-list-2") {
-    //     todo = this.allDoneColTodos[i]
-    //     this.projectPageService.handleOnChangePosTask(todo.id, newIndex, "INPROGRACE")
-    //       .subscribe(data => {
-    //         console.log(data)
-    //       })
-    //   }
-
-    // } else if (event.container.id === "cdk-drop-list-2") {
-    //   const newIndex = this.allDoneColTodos[event.currentIndex].index - 0.01
-    //   const todo = this.allDoneColTodos[i]
-    //   this.projectPageService.handleOnChangePosTask(todo.id, newIndex, "DONE")
-    //     .subscribe(data => {
-    //       console.log(data)
-    //     })
-    // } 
-
-
-    if (event.previousContainer === event.container) {
-
+     if (event.previousContainer === event.container) {
       moveItemInArray(
         event.container.data,
         event.previousIndex,
         event.currentIndex
       );
     } else {
-       
-      
-      
       transferArrayItem(
         event.previousContainer.data,
         event.container.data,
         event.previousIndex,
         event.currentIndex
         );
-
-
-        // let newIndex = 0
-        // if (event.previousContainer.id === "cdk-drop-list-0") {
-        //   if (event.container.id === "cdk-drop-list-1") {
-        //   const todo = this.allInPrograceColTodos[event.currentIndex]
-        //     if (this.allInPrograceColTodos.length) {
-        //       if (this.allInPrograceColTodos[event.currentIndex]) newIndex = this.allInPrograceColTodos[event.currentIndex].index - 0.01
-        //       else newIndex = this.allInPrograceColTodos[event.currentIndex - 1].index + 0.01
-        //     }
-        //     this.projectPageService.handleOnChangePosTask(todo.id, newIndex, "INPROGRACE").subscribe()
-        //   }else if (event.container.id === "cdk-drop-list-2") {
-        //   const todo = this.allDoneColTodos[event.currentIndex]
-        //     if (this.allDoneColTodos.length) {
-        //       if (this.allDoneColTodos[event.currentIndex]) newIndex = this.allDoneColTodos[event.currentIndex].index - 0.01
-        //       else newIndex = this.allDoneColTodos[event.currentIndex - 1].index + 0.01
-        //     }
-        //     this.projectPageService.handleOnChangePosTask(todo.id, newIndex, "DONE").subscribe()
-        //   } 
-        // }else if (event.previousContainer.id === "cdk-drop-list-1") {
-        //   if (event.container.id === "cdk-drop-list-0") {
-        //   const todo = this.allTodoColTodos[event.currentIndex]
-        //     if (this.allTodoColTodos.length) {
-        //       if (this.allTodoColTodos[event.currentIndex]) newIndex = this.allTodoColTodos[event.currentIndex].index - 0.01
-        //       else newIndex = this.allTodoColTodos[event.currentIndex - 1].index + 0.01
-        //     }
-        //     this.projectPageService.handleOnChangePosTask(todo.id, newIndex, "TODO").subscribe()
-        //   }else if (event.container.id === "cdk-drop-list-2") {
-        //   const todo = this.allDoneColTodos[event.currentIndex]
-        //     if (this.allDoneColTodos.length) {
-        //       if (this.allDoneColTodos[event.currentIndex]) newIndex = this.allDoneColTodos[event.currentIndex].index - 0.01
-        //       else newIndex = this.allDoneColTodos[event.currentIndex - 1].index + 0.01
-        //     }
-        //     this.projectPageService.handleOnChangePosTask(todo.id, newIndex, "DONE").subscribe()
-        //   } 
-        // }else if (event.previousContainer.id === "cdk-drop-list-2") {
-        //   if (event.container.id === "cdk-drop-list-0") {
-
-        //   const todo = this.allTodoColTodos[event.currentIndex]
-        //     if (this.allTodoColTodos.length) {
-        //       if (this.allTodoColTodos[event.currentIndex]) newIndex = this.allTodoColTodos[event.currentIndex].index - 0.01
-        //       else newIndex = this.allTodoColTodos[event.currentIndex - 1].index + 0.01
-        //     }
-        //     this.projectPageService.handleOnChangePosTask(todo.id, newIndex, "TODO").subscribe()
-        //   }else if (event.container.id === "cdk-drop-list-1") {
-        //   const todo = this.allInPrograceColTodos[event.currentIndex]
-        //     if (this.allInPrograceColTodos.length) {
-        //       if (this.allInPrograceColTodos[event.currentIndex]) newIndex = this.allInPrograceColTodos[event.currentIndex].index - 0.01
-        //       else newIndex = this.allInPrograceColTodos[event.currentIndex - 1].index + 0.01
-        //     }
-        //     this.projectPageService.handleOnChangePosTask(todo.id, newIndex, "INPROGRACE").subscribe()
-        //   } 
-        // }
     }
 
+      let newIndex = 0
+      let todoArr: any[] = []
+      let todoStatus = ""
     if(event.container.id === "cdk-drop-list-0") {
-      let newIndex = 0
-      const todo = this.allTodoColTodos[event.currentIndex]
-      if(this.allTodoColTodos[event.currentIndex + 1] && this.allTodoColTodos[event.currentIndex - 1]) {
-        newIndex = (this.allTodoColTodos[event.currentIndex + 1].index - this.allTodoColTodos[event.currentIndex - 1].index) / 2
-      }else if(this.allTodoColTodos[event.currentIndex + 1]) {
-        newIndex = this.allTodoColTodos[event.currentIndex + 1].index - 0.01 
-      } else if(this.allTodoColTodos[event.currentIndex - 1]) {
-        newIndex = this.allTodoColTodos[event.currentIndex - 1].index + 0.01 
-      }
-      this.allTodoColTodos[event.currentIndex].index = newIndex
-      this.projectPageService.handleOnChangePosTask(todo.id, newIndex, "TODO").subscribe()
+      todoArr = this.allTodoColTodos
+      todoStatus = "TODO"
+      // const todo = this.allTodoColTodos[event.currentIndex]
+      // if(this.allTodoColTodos[event.currentIndex + 1] && this.allTodoColTodos[event.currentIndex - 1]) {
+      //   newIndex = (this.allTodoColTodos[event.currentIndex + 1].index - this.allTodoColTodos[event.currentIndex - 1].index) / 2
+      // }else if(this.allTodoColTodos[event.currentIndex + 1]) {
+      //   newIndex = this.allTodoColTodos[event.currentIndex + 1].index - 0.01 
+      // } else if(this.allTodoColTodos[event.currentIndex - 1]) {
+      //   newIndex = this.allTodoColTodos[event.currentIndex - 1].index + 0.01 
+      // }
+      // this.allTodoColTodos[event.currentIndex].index = newIndex
+      // this.projectPageService.handleOnChangePosTask(todo.id, newIndex, "TODO").subscribe()
     }else if(event.container.id === "cdk-drop-list-1") {
-      let newIndex = 0
-      const todo = this.allInPrograceColTodos[event.currentIndex]
-      if(this.allInPrograceColTodos[event.currentIndex + 1] && this.allInPrograceColTodos[event.currentIndex - 1]) {
-        newIndex = (this.allInPrograceColTodos[event.currentIndex + 1].index - this.allInPrograceColTodos[event.currentIndex - 1].index) / 2
-      }else if(this.allInPrograceColTodos[event.currentIndex + 1]) {
-        newIndex = this.allInPrograceColTodos[event.currentIndex + 1].index - 0.01 
-      } else if(this.allInPrograceColTodos[event.currentIndex - 1]) {
-        newIndex = this.allInPrograceColTodos[event.currentIndex - 1].index + 0.01 
-      }
-      this.allInPrograceColTodos[event.currentIndex].index = newIndex
-      this.projectPageService.handleOnChangePosTask(todo.id, newIndex, "INPROGRACE").subscribe()
+      todoArr = this.allInPrograceColTodos
+      todoStatus = "INPROGRACE"
+      // const todo = this.allInPrograceColTodos[event.currentIndex]
+      // if(this.allInPrograceColTodos[event.currentIndex + 1] && this.allInPrograceColTodos[event.currentIndex - 1]) {
+      //   newIndex = (this.allInPrograceColTodos[event.currentIndex + 1].index - this.allInPrograceColTodos[event.currentIndex - 1].index) / 2
+      // }else if(this.allInPrograceColTodos[event.currentIndex + 1]) {
+      //   newIndex = this.allInPrograceColTodos[event.currentIndex + 1].index - 0.01 
+      // } else if(this.allInPrograceColTodos[event.currentIndex - 1]) {
+      //   newIndex = this.allInPrograceColTodos[event.currentIndex - 1].index + 0.01 
+      // }
+      // this.allInPrograceColTodos[event.currentIndex].index = newIndex
+      // this.projectPageService.handleOnChangePosTask(todo.id, newIndex, "INPROGRACE").subscribe()
     }else if(event.container.id === "cdk-drop-list-2") {
-
-
-
-
-      let newIndex = 0
-      const todo = this.allDoneColTodos[event.currentIndex]
-      if(this.allDoneColTodos[event.currentIndex + 1] && this.allDoneColTodos[event.currentIndex - 1]) {
-        newIndex = (this.allDoneColTodos[event.currentIndex + 1].index - this.allDoneColTodos[event.currentIndex - 1].index) / 2
-      }else if(this.allDoneColTodos[event.currentIndex + 1]) {
-        newIndex = this.allDoneColTodos[event.currentIndex + 1].index - 0.01 
-      } else if(this.allDoneColTodos[event.currentIndex - 1]) {
-        newIndex = this.allDoneColTodos[event.currentIndex - 1].index + 0.01 
-      }
-      this.allDoneColTodos[event.currentIndex].index = newIndex
-      this.projectPageService.handleOnChangePosTask(todo.id, newIndex, "DONE").subscribe()
+      todoArr = this.allDoneColTodos
+      todoStatus = "DONE"
+      // const todo = this.allDoneColTodos[event.currentIndex]
+      // if(this.allDoneColTodos[event.currentIndex + 1] && this.allDoneColTodos[event.currentIndex - 1]) {
+      //   newIndex = (this.allDoneColTodos[event.currentIndex + 1].index - this.allDoneColTodos[event.currentIndex - 1].index) / 2
+      // }else if(this.allDoneColTodos[event.currentIndex + 1]) {
+      //   newIndex = this.allDoneColTodos[event.currentIndex + 1].index - 0.01 
+      // } else if(this.allDoneColTodos[event.currentIndex - 1]) {
+      //   newIndex = this.allDoneColTodos[event.currentIndex - 1].index + 0.01 
+      // }
+      // this.allDoneColTodos[event.currentIndex].index = newIndex
+      // this.projectPageService.handleOnChangePosTask(todo.id, newIndex, "DONE").subscribe()
     }
+
+      const todo = todoArr[event.currentIndex]
+      if(todoArr[event.currentIndex + 1] && todoArr[event.currentIndex - 1]) {
+        newIndex = (todoArr[event.currentIndex + 1].index - todoArr[event.currentIndex - 1].index) / 2
+      }else if(todoArr[event.currentIndex + 1]) {
+        newIndex = todoArr[event.currentIndex + 1].index - 0.01 
+      } else if(todoArr[event.currentIndex - 1]) {
+        newIndex = todoArr[event.currentIndex - 1].index + 0.01 
+      }
+      todoArr[event.currentIndex].index = newIndex
+      console.log(newIndex)
+      console.log(todoArr)
+      this.projectPageService.handleOnChangePosTask(todo.id, newIndex, todoStatus).subscribe()
   }
 
   stringTOHtml(str: string) {
