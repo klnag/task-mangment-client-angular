@@ -62,11 +62,12 @@ export class ProjectPageComponent {
 
   handleOnAddNewTodo() {
     if(this.newTodo) {
-      this.projectPageService.handleOnCreateNewTodo(this.newTodo, this.projectData.id, this.userData.user.username, this.allTodoColTodos.length )
-        .subscribe(data => {
-          this.allTodoColTodos.push(data)
-          this.newTodo = ""
+          this.allTodoColTodos.push({title: this.newTodo, projectId: this.projectData.id, username: this.userData.user.username,index: this.allTodoColTodos.length-1,context: ""})
           this.isCreatingNewTodo = false
+      this.projectPageService.handleOnCreateNewTodo(this.newTodo, this.projectData.id, this.userData.user.username, this.allTodoColTodos.length-1 )
+        .subscribe(data => {
+          // this.allTodoColTodos.push(data)
+          this.newTodo = ""
           console.log(data)
         })
     }
@@ -178,7 +179,7 @@ export class ProjectPageComponent {
       todoArr[event.currentIndex].index = newIndex
       console.log(newIndex)
       console.log(todoArr)
-      this.projectPageService.handleOnUpdateTodo(todo.id, todo.title,todo.projectId,todo.context,todoStatus, todo.username, newIndex).subscribe()
+      // this.projectPageService.handleOnUpdateTodo(todo.id, todo.title,todo.projectId,todo.context,todoStatus, todo.username, newIndex).subscribe()
   }
 
   stringTOHtml(str: string) {
