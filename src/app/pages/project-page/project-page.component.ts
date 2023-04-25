@@ -73,8 +73,8 @@ export class ProjectPageComponent {
         })
     }
   }
-  handleOnUpdateTodo(todoId: string, title: string,context: string, status: string, username: string, index: number) {
-    this.projectPageService.handleOnUpdateTodo(todoId, title, this.projectData.id, context, status, username, index)
+  handleOnUpdateTodo(todoId: string, title: string,context: string, status: string, username: string, index: number, priority: any) {
+    this.projectPageService.handleOnUpdateTodo(todoId, title, this.projectData.id, context, status, username, index, priority.target.value)
       .subscribe(data => {
         if(status == this.selectedTask.status) {
           if(this.selectedTask.status === "TODO") {
