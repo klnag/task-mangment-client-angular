@@ -37,6 +37,7 @@ export class ProjectPageComponent {
   allTodoColTodos: any[] = []
   allInPrograceColTodos: any[] = []
   allDoneColTodos: any[] = []
+  newShareProjectEmail = ""
   constructor(private route: ActivatedRoute, private cd: ChangeDetectorRef, private projectPageService: ProjectPageService) {
   }
   ngOnInit() {
@@ -194,6 +195,16 @@ export class ProjectPageComponent {
 
     console.log(res)
     return res
+  }
+
+  handleOnClickAddEmail() {
+    if(this.newShareProjectEmail) {
+      console.log(123 )
+      this.projectPageService.handleOnShareProject(this.projectData.id, this.newShareProjectEmail)
+      .subscribe(data => {
+        console.log(data)
+      })
+    }
   }
   
 }
