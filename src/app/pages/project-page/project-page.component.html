@@ -72,22 +72,23 @@
                             [(ngModel)]="selectedTodoTitleUpdate"></textarea>
                         <div class="flex justify-end">
                             <button class="mr-2 bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg"
-                                (click)="handleOnUpdateTodo(selectedTask.id, selectedTodoTitleUpdate, selectedTask.context, selectedTask.status, selectedTask.username, selectedTask.index, selectedTask.priority)">Update</button>
+                                (click)="handleOnUpdateTodo(selectedTask.id, selectedTodoTitleUpdate, selectedTask.context, selectedTask.status, selectedTask.username, selectedTask.index, selectedTask.priority, selectedTask.assignTo)">Update</button>
                             <button class="bg-gray-500 hover:bg-gray-600 text-white py-2 px-4 rounded-lg"
                                 (click)="isUpdateingTodoTitle = false">Cancel</button>
                         </div>
                     </div>
-                    <select name="" id="" (change)="handleOnUpdateTodo(selectedTask.id, selectedTask.title, selectedTask.context, selectedTask.status, selectedTask.username, selectedTask.index,$event)">
+                    <select name="" id="" (change)="handleOnUpdateTodo(selectedTask.id, selectedTask.title, selectedTask.context, selectedTask.status, selectedTask.username, selectedTask.index, $event.target , selectedTask.assignTo)">
                         <option [value]="selectedTask.priority" hidden>{{selectedTask.priority}}</option>
                         <option value="low">low</option>
                         <option value="mid">mid</option>
                         <option value="high">high</option>
                     </select>
                     <br>
-                    <select name="" id="">
+                    <select name="" id="" (change)="handleOnChangeTodoUserAssign($event)">
 
+                            <option value="">None</option>
                         <ng-container *ngFor="let t of projectData.shareUsersUsername.$values ; let i = index" >
-                            <option>{{t}} {{i}}</option>
+                            <option [value]="projectData.shareUsersId.$values[i]" [selected]="selectedTask.assignTo == projectData.shareUsersId.$values[i]">{{t}} {{i}}</option>
                         </ng-container>
 
                     </select>
@@ -131,7 +132,7 @@
                         <textarea [(ngModel)]="selectedTodoContext"
                             class="p-4 border resize-none  rounded-lg w-full" rows="3"></textarea>
                         <button class="bg-blue-300 mr-4 text-white py-2 px-4 rounded-md"
-                            (click)="handleOnUpdateTodo(selectedTask.id,selectedTask.title, selectedTodoContext,selectedTask.status, selectedTask.username, selectedTask.index, selectedTask.priority )">Update</button>
+                            (click)="handleOnUpdateTodo(selectedTask.id,selectedTask.title, selectedTodoContext,selectedTask.status, selectedTask.username, selectedTask.index, selectedTask.priority, selectedTask.assignTo )">Update</button>
                         <button class="bg-gray-100  py-2 px-4 rounded-md"
                             (click)="isUpdateTodoContext = false ; selectedTodoContext = selectedTask.context">Cancel</button>
                     </div>
@@ -140,7 +141,7 @@
                     <textarea placeholder="You don't have a context, add one" [(ngModel)]="selectedTodoContext"
                         class="border  rounded-lg resize-none p-2 w-full" rows="3"></textarea>
                     <button class="bg-blue-300 text-white py-2 px-4 rounded-md"
-                        (click)="handleOnUpdateTodo(selectedTask.id,selectedTask.title, selectedTodoContext, selectedTask.status, selectedTask.username, selectedTask.index, selectedTask.priority)">Add</button>
+                        (click)="handleOnUpdateTodo(selectedTask.id,selectedTask.title, selectedTodoContext, selectedTask.status, selectedTask.username, selectedTask.index, selectedTask.priority, selectedTask.assignTo)">Add</button>
                 </div>
             </div>
         <div class="flex w-full flex-col ">

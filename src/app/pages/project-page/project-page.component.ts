@@ -73,8 +73,10 @@ export class ProjectPageComponent {
         })
     }
   }
-  handleOnUpdateTodo(todoId: string, title: string,context: string, status: string, username: string, index: number, priority: any) {
-    this.projectPageService.handleOnUpdateTodo(todoId, title, this.projectData.id, context, status, username, index, priority.target.value)
+  handleOnUpdateTodo(todoId: string, title: string,context: string, status: string, username: string, index: number, priority: any, assignTo: string) {
+    let d = priority
+    if(priority.value) d = priority.value
+    this.projectPageService.handleOnUpdateTodo(todoId, title, this.projectData.id, context, status, username, index, d, assignTo)
       .subscribe(data => {
         if(status == this.selectedTask.status) {
           if(this.selectedTask.status === "TODO") {
@@ -206,5 +208,8 @@ export class ProjectPageComponent {
       })
     }
   }
-  
+ handleOnChangeTodoUserAssign(e: any) {
+
+     this.handleOnUpdateTodo(this.selectedTask.id, this.selectedTask.title, this.selectedTask.context, this.selectedTask.status, this.selectedTask.username, this.selectedTask.index, this.selectedTask.priority, e.target.value)
+ } 
 }
