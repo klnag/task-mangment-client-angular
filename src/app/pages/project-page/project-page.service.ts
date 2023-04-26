@@ -16,7 +16,7 @@ export class ProjectPageService {
 
   handleOnCreateNewTodo(title: string, projectId: string, username:string, index: number) {
     console.log(username)
-    return this.http.post('http://localhost:5242/api/Todo', {title, projectId,username, context: "", index, priority: "low"}, {headers:this.headers})
+    return this.http.post('http://localhost:5242/api/Todo', {title, projectId,username, context: "", index, priority: "low", assignTo: ""}, {headers:this.headers})
   }
   handleOnUpdateTodo(todoId: string,title: string, projectId: string, context: string, status: string, username: string, index: number, priority: string) {
     console.log({title, projectId,context, username, index, status})

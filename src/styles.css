@@ -62,3 +62,7 @@
   .example-list.cdk-drop-list-dragging .example-box:not(.cdk-drag-placeholder) {
     transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
   }
+
+.low {color: #B4D8E7;}
+.mid {color: #FFD700;}
+.high {color: red;}

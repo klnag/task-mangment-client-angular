@@ -41,7 +41,6 @@ export class ProjectPageComponent {
   constructor(private route: ActivatedRoute, private cd: ChangeDetectorRef, private projectPageService: ProjectPageService) {
   }
   ngOnInit() {
-
     this.stringTOHtml("Hi\n there\n")
     this.isLoadding = true
     this.projectPageService.handleOnGetAllTodos(this.projectData.id).subscribe((data: any) => {
@@ -59,6 +58,7 @@ export class ProjectPageComponent {
       console.log(this.allDoneColTodos)
       this.isLoadding = false 
     })
+    console.log(this.projectData)
   }
 
   handleOnAddNewTodo() {

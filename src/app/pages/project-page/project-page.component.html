@@ -27,7 +27,10 @@
                 </div>
                 <div class="bg-white  cursor-pointer  m-2 p-4 rounded-sm example-box"
                     *ngFor="let todo of allTodoColTodos" (click)="handleOnClickTask(todo)" cdkDrag>
-                    <h1 [id]="todo.id">{{todo.title}}</h1>
+                    <div>
+                        <h1 [id]="todo.id">{{todo.title}}</h1>
+                        <p [class]="'relative top-4 ' + todo.priority">{{todo.priority}}</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -79,6 +82,14 @@
                         <option value="low">low</option>
                         <option value="mid">mid</option>
                         <option value="high">high</option>
+                    </select>
+                    <br>
+                    <select name="" id="">
+
+                        <ng-container *ngFor="let t of projectData.shareUsersUsername.$values ; let i = index" >
+                            <option>{{t}} {{i}}</option>
+                        </ng-container>
+
                     </select>
                 </div>
                 <div class="sm:w-1/2 sm:h-full">
