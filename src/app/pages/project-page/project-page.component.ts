@@ -105,17 +105,18 @@ export class ProjectPageComponent {
   }
 
   handleOnClickDelete() {
-    this.projectPageService.handleOnDeleteTodo(this.selectedTask.id)
-    .subscribe(data => {
-      if(this.selectedTask.status === "TODO") {
+if(this.selectedTask.status === "TODO") {
         this.allTodoColTodos = this.allTodoColTodos.filter((todo: any) => todo.id !== this.selectedTask.id)
       }else if(this.selectedTask.status === "INPROGRACE") {
         this.allInPrograceColTodos = this.allInPrograceColTodos.filter((todo: any) => todo.id !== this.selectedTask.id)
       }else if(this.selectedTask.status === "DONE") {
         this.allDoneColTodos = this.allDoneColTodos.filter((todo: any) => todo.id !== this.selectedTask.id)
       }
-      this.isUpdatingTask = false
+    this.projectPageService.handleOnDeleteTodo(this.selectedTask.id)
+    .subscribe(data => {
+      
     })
+      this.isUpdatingTask = false
   }
 
   handleOnClickTask(todo: any) {
@@ -185,7 +186,7 @@ export class ProjectPageComponent {
       todoArr[event.currentIndex].index = newIndex
       console.log(newIndex)
       console.log(todoArr)
-      // this.projectPageService.handleOnUpdateTodo(todo.id, todo.title,todo.projectId,todo.context,todoStatus, todo.username, newIndex).subscribe()
+      this.projectPageService.handleOnUpdateTodo(todo.id, todo.title,todo.projectId,todo.context,todoStatus, todo.username, newIndex, todo.priority, todo.assignTo).subscribe()
   }
 
   stringTOHtml(str: string) {
@@ -215,4 +216,10 @@ export class ProjectPageComponent {
 
      this.handleOnUpdateTodo(this.selectedTask.id, this.selectedTask.title, this.selectedTask.context, this.selectedTask.status, this.selectedTask.username, this.selectedTask.index, this.selectedTask.priority, e.target.value)
  } 
+
+ handleOnReturnUsername(todo: any) {
+  const t = this.projectData.shareUsersId.$values.findIndex((j: any) => j === +todo.assignTo)
+  console.log(t, todo.assignTo)
+  return this.projectData.shareUsersUsername.$values[t]
+ }
 }
