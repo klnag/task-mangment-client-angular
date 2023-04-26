@@ -63,9 +63,9 @@
     transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
   }
 
-.low {color: #B4D8E7;}
-.mid {color: #FFD700;}
-.high {color: red;}
+.low {background-color: #B4D8E7;}
+.mid {background-color: #FFD700;}
+.high {background-color: red;}
 
 select {
   padding-left: 5px;
