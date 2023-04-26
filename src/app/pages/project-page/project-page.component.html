@@ -63,7 +63,7 @@
     <div class="w-3/4 sm:w-5/6 lg:w-3/4 xl:w-1/2 2xl:w-2/3 h-4/5 bg-white text-black overflow-auto rounded-2xl">
         <div class="m-8 flex-1">
             <div class="flex flex-col sm:flex-row h-1/4">
-                <div class="sm:w-1/2 sm:h-full flex items-center">
+                <div class="sm:w-1/2 sm:h-full flex  flex-col">
                     <h1 *ngIf="!isUpdateingTodoTitle" class="text-3xl"
                         (click)="isUpdateingTodoTitle = true; selectedTodoTitleUpdate = selectedTask.title">{{
                         selectedTask.title }}</h1>
@@ -77,13 +77,16 @@
                                 (click)="isUpdateingTodoTitle = false">Cancel</button>
                         </div>
                     </div>
+                    <br>
+                    <div *ngIf="!isUpdateingTodoTitle">
+                    <label for="">Priority: </label>
                     <select name="" id="" (change)="handleOnUpdateTodo(selectedTask.id, selectedTask.title, selectedTask.context, selectedTask.status, selectedTask.username, selectedTask.index, $event.target , selectedTask.assignTo)">
                         <option [value]="selectedTask.priority" hidden>{{selectedTask.priority}}</option>
                         <option value="low">low</option>
                         <option value="mid">mid</option>
                         <option value="high">high</option>
                     </select>
-                    <br>
+                    <label class="ml-4" for="">Assign TO: </label>
                     <select name="" id="" (change)="handleOnChangeTodoUserAssign($event)">
 
                             <option value="">None</option>
@@ -92,6 +95,7 @@
                         </ng-container>
 
                     </select>
+                </div>
                 </div>
                 <div class="sm:w-1/2 sm:h-full">
                     <button class="float-right text-red-600 text-xl" (click)="isUpdatingTask = false; isUpdateTodoContext = false; isUpdateTodoContext = false; isUpdateingTodoTitle = false">X</button>
@@ -106,28 +110,10 @@
                     </div>
                 </div>
             </div>
-            <!-- <div class="mt-8">
-                <h1 class="text-xl font-bold">Description:</h1>
-                <br>
-                <div *ngIf="selectedTask.context" class="p-4 border rounded-lg">
-                    <p *ngIf="!isUpdateTodoContext" class="leading-7">{{ selectedTask.context }}</p>
-                    <div *ngIf="isUpdateTodoContext" class="w-full">
-                        <textarea class="w-full p-2 border mb-2 resize-none border-blue-500 rounded-lg" rows="3"
-                            [(ngModel)]="selectedTodoContext"></textarea>
-                        <div class="flex justify-end">
-                            <button class="mr-2 bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg"
-                                (click)="handleOnUpdateTodo(selectedTask.id, selectedTask.title, selectedTodoContext, selectedTask.status, selectedTask.username, selectedTask.index)">Update</button>
-                            <button class="bg-gray-500 hover:bg-gray-600 text-white py-2 px-4 rounded-lg"
-                                (click)="isUpdateTodoContext = false; selectedTodoContext = selectedTask.context">Cancel</button>
-                        </div>
-                    </div>
-                </div>
-            </div> -->
             <div>
                 <h1>Description:</h1>
-                <br>
-                <div *ngIf="selectedTask.context" class="p-4">
-                    <p class="m-4" (click)="isUpdateTodoContext = true" *ngIf="!isUpdateTodoContext" [innerHTML]="this.stringTOHtml(selectedTask.context)"></p>
+                <div *ngIf="selectedTask.context" class="p-2">
+                    <p class="m-2" (click)="isUpdateTodoContext = true" *ngIf="!isUpdateTodoContext" [innerHTML]="this.stringTOHtml(selectedTask.context)"></p>
                     <div *ngIf="isUpdateTodoContext">
                         <textarea [(ngModel)]="selectedTodoContext"
                             class="p-4 border resize-none  rounded-lg w-full" rows="3"></textarea>

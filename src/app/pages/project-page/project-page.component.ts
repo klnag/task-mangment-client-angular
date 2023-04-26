@@ -63,13 +63,16 @@ export class ProjectPageComponent {
 
   handleOnAddNewTodo() {
     if(this.newTodo) {
-          this.allTodoColTodos.push({title: this.newTodo, projectId: this.projectData.id, username: this.userData.user.username,index: this.allTodoColTodos.length-1,context: ""})
+          this.allTodoColTodos.push({id: -1,title: this.newTodo, projectId: this.projectData.id, username: this.userData.user.username,index: this.allTodoColTodos.length-1,context: "", assignTo: "", priority: "low"})
           this.isCreatingNewTodo = false
       this.projectPageService.handleOnCreateNewTodo(this.newTodo, this.projectData.id, this.userData.user.username, this.allTodoColTodos.length-1 )
-        .subscribe(data => {
+        .subscribe((data: any) => {
           // this.allTodoColTodos.push(data)
           this.newTodo = ""
+
+        this.allTodoColTodos[this.allTodoColTodos.length - 1].id = data.id 
           console.log(data)
+          console.log(this.allTodoColTodos)
         })
     }
   }
