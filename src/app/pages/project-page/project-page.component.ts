@@ -80,23 +80,70 @@ export class ProjectPageComponent {
     let d = priority
     if(priority.value) d = priority.value
     this.projectPageService.handleOnUpdateTodo(todoId, title, this.projectData.id, context, status, username, index, d, assignTo)
-      .subscribe(data => {
-        if(status == this.selectedTask.status) {
-          if(this.selectedTask.status === "TODO") {
-            const i = this.allTodoColTodos.findIndex(t => t.id === this.selectedTask.id)
-            this.allTodoColTodos[i].title = title
-            this.allTodoColTodos[i].context = context 
-          }else if(this.selectedTask.status === "INPROGRACE") {
-            const i = this.allInPrograceColTodos.findIndex(t => t.id === this.selectedTask.id)
-            this.allInPrograceColTodos[i].title = title
-            this.allInPrograceColTodos[i].context = context 
-          }else if(this.selectedTask.status === "DONE") {
-            const i = this.allDoneColTodos.findIndex(t => t.id === this.selectedTask.id)
-            this.allDoneColTodos[i].title = title
-            this.allDoneColTodos[i].context = context 
+      .subscribe((data: any) => {
+          let list = []
+        if (status == this.selectedTask.status) {
+          if (this.selectedTask.status === "TODO") {
+            list = this.allTodoColTodos
+            // const i = this.allTodoColTodos.findIndex(t => t.id === this.selectedTask.id)
+            // this.allTodoColTodos[i].title = title
+            // this.allTodoColTodos[i].context = context
+            // this.allTodoColTodos[i].priority = d
+            // this.allTodoColTodos[i].assignTo = assignTo
+          } else if (this.selectedTask.status === "INPROGRACE") {
+            list = this.allInPrograceColTodos
+            // const i = this.allInPrograceColTodos.findIndex(t => t.id === this.selectedTask.id)
+            // this.allInPrograceColTodos[i].title = title
+            // this.allInPrograceColTodos[i].context = context
+            // this.allInPrograceColTodos[i].priority = d
+            // this.allInPrograceColTodos[i].assignTo = assignTo
+          } else if (this.selectedTask.status === "DONE") {
+            list = this.allDoneColTodos
+            // const i = this.allDoneColTodos.findIndex(t => t.id === this.selectedTask.id)
+            // this.allDoneColTodos[i].title = title
+            // this.allDoneColTodos[i].context = context
+            // this.allDoneColTodos[i].priority = d
+            // this.allDoneColTodos[i].assignTo = assignTo
+          }
+        }else {
+if (status === "TODO") {
+            list = this.allTodoColTodos
+            // const i = this.allTodoColTodos.findIndex(t => t.id === this.selectedTask.id)
+            // this.allTodoColTodos[i].title = title
+            // this.allTodoColTodos[i].context = context
+            // this.allTodoColTodos[i].priority = d
+            // this.allTodoColTodos[i].assignTo = assignTo
+          } else if (status === "INPROGRACE") {
+            list = this.allInPrograceColTodos
+            // const i = this.allInPrograceColTodos.findIndex(t => t.id === this.selectedTask.id)
+            // this.allInPrograceColTodos[i].title = title
+            // this.allInPrograceColTodos[i].context = context
+            // this.allInPrograceColTodos[i].priority = d
+            // this.allInPrograceColTodos[i].assignTo = assignTo
+          } else if (status === "DONE") {
+            list = this.allDoneColTodos
+            // const i = this.allDoneColTodos.findIndex(t => t.id === this.selectedTask.id)
+            // this.allDoneColTodos[i].title = title
+            // this.allDoneColTodos[i].context = context
+            // this.allDoneColTodos[i].priority = d
+            // this.allDoneColTodos[i].assignTo = assignTo
           }
         }
+            // const i = list.findIndex(t => t.id === this.selectedTask.id)
+            // console.log(i, list, title, this.selectedTask.id, this.selectedTask.status)
+            // list[i].title = title
+            // list[i].status = status 
+            // list[i].context = context
+            // list[i].priority = d
+            // list[i].assignTo = assignTo
+            const index = list.findIndex(t => t.id === data.id)
+            console.log(index, data)
+            list[index] = data
+        
         console.log(data)
+        console.log(this.allTodoColTodos)
+        console.log(this.allInPrograceColTodos)
+        console.log(this.allDoneColTodos)
         this.isUpdateTodoContext = false
         this.selectedTask = data
         this.isUpdateingTodoTitle = false
@@ -184,9 +231,12 @@ if(this.selectedTask.status === "TODO") {
         newIndex = todoArr[event.currentIndex - 1].index + 0.01 
       }
       todoArr[event.currentIndex].index = newIndex
-      console.log(newIndex)
-      console.log(todoArr)
-      this.projectPageService.handleOnUpdateTodo(todo.id, todo.title,todo.projectId,todo.context,todoStatus, todo.username, newIndex, todo.priority, todo.assignTo).subscribe()
+      // console.log(newIndex)
+      // console.log(todoArr)
+      // this.projectPageService.handleOnUpdateTodo(todo.id, todo.title,todo.projectId,todo.context,todoStatus, todo.username, newIndex, todo.priority, todo.assignTo).subscribe()
+      console.log(todoStatus)
+      this.handleOnUpdateTodo(todo.id, todo.title,todo.context,todoStatus, todo.username, newIndex, todo.priority, todo.assignTo)
+      //  handleOnUpdateTodo(todoId, title,context, status, username, index, priority, assignTo) {
   }
 
   stringTOHtml(str: string) {
@@ -219,7 +269,7 @@ if(this.selectedTask.status === "TODO") {
 
  handleOnReturnUsername(todo: any) {
   const t = this.projectData.shareUsersId.$values.findIndex((j: any) => j === +todo.assignTo)
-  console.log(t, todo.assignTo)
+  // console.log(t, todo.assignTo)
   return this.projectData.shareUsersUsername.$values[t]
  }
 }

@@ -51,9 +51,9 @@
 
                     <div class=" text-left">
                         <h1 [id]="todo.id">{{todo.title}}</h1>
-                        <p [class]="'relative top-4  ' "><span
+ <p [class]="'relative top-4  ' "><span
                                 [class]=" 'text-white px-2 py-[1px] text-sm rounded-lg ' + todo.priority ">{{todo.priority}}</span>
-                            <span
+                            <span *ngIf="todo.assignTo"
                                 class="ml-4  bg-[#0747A6] text-white px-2 py-[1px] text-sm rounded-lg">{{handleOnReturnUsername(todo)}}</span>
                         </p>
                     </div>
@@ -71,7 +71,7 @@
                         <h1 [id]="todo.id">{{todo.title}}</h1>
                         <p [class]="'relative top-4  ' "><span
                                 [class]=" 'text-white px-2 py-[1px] text-sm rounded-lg ' + todo.priority ">{{todo.priority}}</span>
-                            <span
+                            <span *ngIf="todo.assignTo"
                                 class="ml-4  bg-[#0747A6] text-white px-2 py-[1px] text-sm rounded-lg">{{handleOnReturnUsername(todo)}}</span>
                         </p>
                     </div>
