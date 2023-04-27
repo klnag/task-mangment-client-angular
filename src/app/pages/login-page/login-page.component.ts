@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { AuthService } from 'src/app/guards/auth.service';
+import { GlobalVariblesService } from 'src/app/store/global-varibles.service';
 
 @Component({
   selector: 'app-login-page',
@@ -10,13 +11,19 @@ export class LoginPageComponent {
   emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
   isValidInputs = false
   isLoading = false
+  errMsg = ""
 
   data: {[key: string]: {value: string, errMsg: string}} = {
     email: { value: "", errMsg: "init"},
     password: { value: "", errMsg: "init"},
   }
 
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService, private store: GlobalVariblesService) {
+
+    this.store.getErrMsg().subscribe((value) => {
+      this.errMsg = value
+    })
+  }
 
   handleOnLogin() {
     this.authService.login(this.data["email"].value,this.data["password"].value)

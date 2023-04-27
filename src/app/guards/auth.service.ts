@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
+import { GlobalVariblesService } from '../store/global-varibles.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,7 @@ export class AuthService {
   private loggedIn = localStorage.getItem("user") !== "" && this.cookieService.get("token") !== "";
   private isLoggedin = new BehaviorSubject<boolean>(localStorage.getItem("user") !== "" && this.cookieService.get("token") !== "")
 
-  constructor(private http: HttpClient, private cookieService: CookieService, private router: Router) {}
+  constructor(private http: HttpClient, private cookieService: CookieService, private router: Router, private store: GlobalVariblesService) {}
 
   getUserInfo() {
     if (!localStorage.getItem("user")) {
@@ -45,15 +46,20 @@ export class AuthService {
       "username": "string",
       "email": email,
       "password": password 
-    }, {responseType: "text"}).subscribe(data => {
+    }).subscribe((data: any) => {
+      console.log(data)
       this.cookieService.set("token", data)
       this.getUserInfo()
+    }, err => {
+      // this.store.errMsg =err.error.error 
+      this.store.setErrMsg(err.error.error)
     })
   }
 
   logout() {
     this.cookieService.delete("token")
     localStorage.removeItem("user")
+    localStorage.removeItem("project")
         this.isLoggedin.next(false)
     this.loggedIn = false;
     this.router.navigate(["login"])

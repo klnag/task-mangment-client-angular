@@ -82,68 +82,21 @@ export class ProjectPageComponent {
     this.projectPageService.handleOnUpdateTodo(todoId, title, this.projectData.id, context, status, username, index, d, assignTo)
       .subscribe((data: any) => {
           let list = []
-        if (status == this.selectedTask.status) {
-          if (this.selectedTask.status === "TODO") {
+          if (this.selectedTask.status === "TODO" || status === "TODO") {
             list = this.allTodoColTodos
-            // const i = this.allTodoColTodos.findIndex(t => t.id === this.selectedTask.id)
-            // this.allTodoColTodos[i].title = title
-            // this.allTodoColTodos[i].context = context
-            // this.allTodoColTodos[i].priority = d
-            // this.allTodoColTodos[i].assignTo = assignTo
-          } else if (this.selectedTask.status === "INPROGRACE") {
+          } else if (this.selectedTask.status === "INPROGRACE" || status === "INPROGRACE") {
             list = this.allInPrograceColTodos
-            // const i = this.allInPrograceColTodos.findIndex(t => t.id === this.selectedTask.id)
-            // this.allInPrograceColTodos[i].title = title
-            // this.allInPrograceColTodos[i].context = context
-            // this.allInPrograceColTodos[i].priority = d
-            // this.allInPrograceColTodos[i].assignTo = assignTo
-          } else if (this.selectedTask.status === "DONE") {
+          } else if (this.selectedTask.status === "DONE" || status === "DONE") {
             list = this.allDoneColTodos
-            // const i = this.allDoneColTodos.findIndex(t => t.id === this.selectedTask.id)
-            // this.allDoneColTodos[i].title = title
-            // this.allDoneColTodos[i].context = context
-            // this.allDoneColTodos[i].priority = d
-            // this.allDoneColTodos[i].assignTo = assignTo
           }
-        }else {
-if (status === "TODO") {
-            list = this.allTodoColTodos
-            // const i = this.allTodoColTodos.findIndex(t => t.id === this.selectedTask.id)
-            // this.allTodoColTodos[i].title = title
-            // this.allTodoColTodos[i].context = context
-            // this.allTodoColTodos[i].priority = d
-            // this.allTodoColTodos[i].assignTo = assignTo
-          } else if (status === "INPROGRACE") {
-            list = this.allInPrograceColTodos
-            // const i = this.allInPrograceColTodos.findIndex(t => t.id === this.selectedTask.id)
-            // this.allInPrograceColTodos[i].title = title
-            // this.allInPrograceColTodos[i].context = context
-            // this.allInPrograceColTodos[i].priority = d
-            // this.allInPrograceColTodos[i].assignTo = assignTo
-          } else if (status === "DONE") {
-            list = this.allDoneColTodos
-            // const i = this.allDoneColTodos.findIndex(t => t.id === this.selectedTask.id)
-            // this.allDoneColTodos[i].title = title
-            // this.allDoneColTodos[i].context = context
-            // this.allDoneColTodos[i].priority = d
-            // this.allDoneColTodos[i].assignTo = assignTo
-          }
-        }
-            // const i = list.findIndex(t => t.id === this.selectedTask.id)
-            // console.log(i, list, title, this.selectedTask.id, this.selectedTask.status)
-            // list[i].title = title
-            // list[i].status = status 
-            // list[i].context = context
-            // list[i].priority = d
-            // list[i].assignTo = assignTo
             const index = list.findIndex(t => t.id === data.id)
             console.log(index, data)
             list[index] = data
         
         console.log(data)
-        console.log(this.allTodoColTodos)
-        console.log(this.allInPrograceColTodos)
-        console.log(this.allDoneColTodos)
+        // console.log(this.allTodoColTodos)
+        // console.log(this.allInPrograceColTodos)
+        // console.log(this.allDoneColTodos)
         this.isUpdateTodoContext = false
         this.selectedTask = data
         this.isUpdateingTodoTitle = false

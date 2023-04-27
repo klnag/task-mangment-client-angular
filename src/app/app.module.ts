@@ -14,6 +14,7 @@ import { FormsModule } from '@angular/forms';
 import { ProjectPageComponent } from './pages/project-page/project-page.component';
 import { ProjectsPageComponent } from './pages/projects-page/projects-page.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { AlertBoxComponent } from './components/alert-box/alert-box.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     NavbarComponent,
     FooterComponent,
     ProjectsPageComponent,
-    ProjectPageComponent
+    ProjectPageComponent,
+    AlertBoxComponent
   ],
   imports: [
     BrowserModule,
