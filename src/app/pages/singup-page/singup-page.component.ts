@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { AuthService } from 'src/app/guards/auth.service';
+import { GlobalVariblesService } from 'src/app/store/global-varibles.service';
 
 @Component({
   selector: 'app-singup-page',
@@ -14,13 +15,18 @@ export class SingupPageComponent {
   isValidInputs = false
   isLoading = false
 
+  errMsg = ""
   data: {[key: string]: {value: string, errMsg: string}} = {
     username: { value: "", errMsg: "init"},
     email: { value: "", errMsg: "init"},
     password: { value: "", errMsg: "init"},
   }
 
-  constructor(private http: HttpClient, private cookiesSerivce: CookieService, private router: Router, private authService: AuthService) {}
+  constructor(private http: HttpClient, private cookiesSerivce: CookieService, private router: Router, private authService: AuthService, private store: GlobalVariblesService) {
+this.store.getErrMsg().subscribe((value) => {
+      this.errMsg = value
+    })
+  }
 
   handleOnSingup() {
     this.inputValidate("username","normal")

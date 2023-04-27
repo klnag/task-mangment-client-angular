@@ -16,7 +16,12 @@ export class ProjectsPageComponent {
   constructor(private projectsPageService: ProjectsPageService) {}
 
   ngOnInit() {
-    this.isLoading = true
+    
+  this.handleOnGetAllUserProjects()
+  }
+
+  handleOnGetAllUserProjects(){
+this.isLoading = true
     this.projectsPageService.handleOnGetAllProjects().subscribe((data: any) => {
       this.projects = data
       this.isLoading = false 

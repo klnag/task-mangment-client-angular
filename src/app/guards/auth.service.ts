@@ -1,9 +1,11 @@
 import { CookieService } from 'ngx-cookie-service';
 import { HttpClient } from '@angular/common/http';
+import { Location } from '@angular/common';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 import { GlobalVariblesService } from '../store/global-varibles.service';
+import { ProjectsPageComponent } from '../pages/projects-page/projects-page.component';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +15,7 @@ export class AuthService {
   private loggedIn = localStorage.getItem("user") !== "" && this.cookieService.get("token") !== "";
   private isLoggedin = new BehaviorSubject<boolean>(localStorage.getItem("user") !== "" && this.cookieService.get("token") !== "")
 
-  constructor(private http: HttpClient, private cookieService: CookieService, private router: Router, private store: GlobalVariblesService) {}
+  constructor(private location: Location,private http: HttpClient, private cookieService: CookieService, private router: Router, private store: GlobalVariblesService) {}
 
   getUserInfo() {
     if (!localStorage.getItem("user")) {
@@ -24,7 +26,9 @@ export class AuthService {
         localStorage.setItem("user", JSON.stringify({ user: data }))
         this.loggedIn = true;
         this.isLoggedin.next(true)
-        this.router.navigate(['projects'])
+        this.location.go('/projects')
+        window.location.reload()
+        // this.router.navigate(['projects']).then(() => this.ppp.handleOnGetAllUserProjects())
       })
     }
   }
@@ -34,9 +38,13 @@ export class AuthService {
       "username": username,
       "email": email,
       "password": password 
-    }, {responseType: "text"}).subscribe(data => {
-      this.cookieService.set("token", data)
+    }).subscribe((data: any) => {
+      console.log(data)
+      this.cookieService.set("token", data.data)
       this.getUserInfo()
+    }, err => {
+      // this.store.errMsg =err.error.error 
+      this.store.setErrMsg(err.error.error)
     })
   }
   
@@ -48,7 +56,7 @@ export class AuthService {
       "password": password 
     }).subscribe((data: any) => {
       console.log(data)
-      this.cookieService.set("token", data)
+      this.cookieService.set("token", data.data)
       this.getUserInfo()
     }, err => {
       // this.store.errMsg =err.error.error 
