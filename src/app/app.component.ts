@@ -9,8 +9,9 @@ import { AuthService } from './guards/auth.service';
 export class AppComponent {
   constructor(private cookieService: CookieService, private authService: AuthService) {}
   ngOnInit() {
-    if(this.cookieService.get("token")) {
+    // if(this.cookieService.get("token")) {
+    console.log(123)
       this.authService.getUserInfo()
-    }
+    // }
   }
 }

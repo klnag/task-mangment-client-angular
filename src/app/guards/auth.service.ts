@@ -18,7 +18,8 @@ export class AuthService {
   constructor(private location: Location,private http: HttpClient, private cookieService: CookieService, private router: Router, private store: GlobalVariblesService) {}
 
   getUserInfo() {
-    if (!localStorage.getItem("user")) {
+    // if (!localStorage.getItem("user")) {
+    console.log(this.cookieService.get("token"))
       this.http.get('http://localhost:5242/api/User', {
         headers: { "Authorization": "Bearer " + this.cookieService.get("token") }, responseType: "json"
       }
@@ -26,11 +27,19 @@ export class AuthService {
         localStorage.setItem("user", JSON.stringify({ user: data }))
         this.loggedIn = true;
         this.isLoggedin.next(true)
-        this.location.go('/projects')
-        window.location.reload()
-        // this.router.navigate(['projects']).then(() => this.ppp.handleOnGetAllUserProjects())
+        // this.location.go('/projects')
+        // window.location.reload()
+        this.router.navigate(['projects'])
+      }, err => {
+          console.log(err)
+        this.cookieService.delete("token")
+        localStorage.removeItem("user")
+        localStorage.removeItem("project")
+        this.isLoggedin.next(false)
+        this.loggedIn = false;
+        this.router.navigate(["login"])     
       })
-    }
+    // }
   }
 
   singup(username: string,email: string, password: string) {
@@ -68,7 +77,7 @@ export class AuthService {
     this.cookieService.delete("token")
     localStorage.removeItem("user")
     localStorage.removeItem("project")
-        this.isLoggedin.next(false)
+    this.isLoggedin.next(false)
     this.loggedIn = false;
     this.router.navigate(["login"])
   }

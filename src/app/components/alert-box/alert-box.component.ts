@@ -7,10 +7,12 @@ import { GlobalVariblesService } from 'src/app/store/global-varibles.service';
 })
 export class AlertBoxComponent {
   @Input() err: string = "";
-  // constructor(private store: GlobalVariblesService) {
-  //   this.err = store.errMsg
-  // }
+  constructor(private store: GlobalVariblesService) {}
   ngOnInit() {
     console.log(this.err)
+  }
+
+  handleOnClickX() {
+    this.store.setErrMsg("");
   }
 }

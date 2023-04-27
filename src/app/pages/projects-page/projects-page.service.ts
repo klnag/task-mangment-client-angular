@@ -12,8 +12,8 @@ export class ProjectsPageService {
     this.userData = JSON.parse(localStorage.getItem("user")+"")
   }
 
-  handleOnGetAllProjects() {
-    return this.http.post('http://localhost:5242/api/Project/userprojects', {}, {headers:this.headers})
+  handleOnGetAllProjects(userId: string) {
+    return this.http.post('http://localhost:5242/api/Project/userprojects?userId='+userId, {}, {headers:this.headers})
   }
   handleOnAddNewProject(name: string) {
     console.log(`http://localhost:5242/api/Project?id=${this.userData.user.id}&name=${name}`)

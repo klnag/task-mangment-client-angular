@@ -1,3 +1,7 @@
-<div class="bg-red-300 absolute  top-14 right-2 p-4 rounded-lg text-white">
-    <h1>{{err}}</h1>
+<div class="bg-red-300 absolute flex flex-col top-14 right-2 p-4 rounded-lg text-white">
+    <div class="flex justify-between">
+        <h1>Error: </h1>
+        <button (click)='handleOnClickX()'>X</button>
+    </div>
+    <p>{{err}}</p>
 </div>
