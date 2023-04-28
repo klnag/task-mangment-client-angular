@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { GlobalVariblesService } from 'src/app/store/global-varibles.service';
 import { ProjectsPageService } from './projects-page.service';
 
 @Component({
@@ -13,7 +14,13 @@ export class ProjectsPageComponent {
   projects: any[] = []
   newProjectName = ""
   localStorage = localStorage
-  constructor(private projectsPageService: ProjectsPageService) {}
+
+  errMsg = ""
+  constructor(private projectsPageService: ProjectsPageService,  private store: GlobalVariblesService) {
+this.store.getErrMsg().subscribe((value) => {
+      this.errMsg = value
+    })
+  }
 
   ngOnInit() {
     console.log(111)
@@ -32,9 +39,13 @@ this.isLoading = true
   handleOnAddProject() {
     if(this.newProjectName) {
       this.isAddNewProjectLoading = true
-      this.projectsPageService.handleOnAddNewProject(this.newProjectName).subscribe(data => {
-        this.projects.push(data)
+      this.projectsPageService.handleOnAddNewProject(this.newProjectName).subscribe((data: any) => {
+        this.projects.push(data.data)
+      console.log(data.data)
         this.newProjectName = ""
+        this.isAddNewProjectLoading = false 
+      }, err => {
+        this.store.setErrMsg(err.error.error)
         this.isAddNewProjectLoading = false 
       })
     }

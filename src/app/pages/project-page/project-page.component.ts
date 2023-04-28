@@ -7,6 +7,7 @@ import {
   moveItemInArray,
   transferArrayItem,
 } from '@angular/cdk/drag-drop';
+import { GlobalVariblesService } from 'src/app/store/global-varibles.service';
 interface Status {
   prevStatus: "TODO" | "INPROGRACE" | "DONE",
   newStatus: "TODO" | "INPROGRACE" | "DONE",
@@ -38,12 +39,20 @@ export class ProjectPageComponent {
   allInPrograceColTodos: any[] = []
   allDoneColTodos: any[] = []
   newShareProjectEmail = ""
-  constructor(private route: ActivatedRoute, private cd: ChangeDetectorRef, private projectPageService: ProjectPageService) {
+
+  errMsg = ""
+  constructor(private route: ActivatedRoute, private cd: ChangeDetectorRef, private projectPageService: ProjectPageService, private store: GlobalVariblesService) {
+this.store.getErrMsg().subscribe((value) => {
+      this.errMsg = value
+    }, err => {
+        this.store.setErrMsg(err.error.error)
+      })
   }
   ngOnInit() {
     this.stringTOHtml("Hi\n there\n")
     this.isLoadding = true
-    this.projectPageService.handleOnGetAllTodos(this.projectData.id).subscribe((data: any) => {
+    this.projectPageService.handleOnGetAllTodos(this.projectData.id).subscribe((res: any) => {
+      const data = res.data
       data.map((todo: any) => {
         if(todo.status === "TODO") {
           this.allTodoColTodos.push(todo)
@@ -57,7 +66,9 @@ export class ProjectPageComponent {
       console.log(this.allInPrograceColTodos)
       console.log(this.allDoneColTodos)
       this.isLoadding = false 
-    })
+    }, err => {
+        this.store.setErrMsg(err.error.error)
+      })
     console.log(this.projectData)
   }
 
@@ -73,7 +84,9 @@ export class ProjectPageComponent {
         this.allTodoColTodos[this.allTodoColTodos.length - 1].id = data.id 
           console.log(data)
           console.log(this.allTodoColTodos)
-        })
+        }, err => {
+        this.store.setErrMsg(err.error.error)
+      })
     }
   }
   handleOnUpdateTodo(todoId: string, title: string,context: string, status: string, username: string, index: number, priority: any, assignTo: string) {
@@ -101,6 +114,8 @@ export class ProjectPageComponent {
         this.selectedTask = data
         this.isUpdateingTodoTitle = false
 
+      }, err => {
+        this.store.setErrMsg(err.error.error)
       })
   }
 
@@ -115,7 +130,9 @@ if(this.selectedTask.status === "TODO") {
     this.projectPageService.handleOnDeleteTodo(this.selectedTask.id)
     .subscribe(data => {
       
-    })
+    }, err => {
+        this.store.setErrMsg(err.error.error)
+      })
       this.isUpdatingTask = false
   }
 
@@ -131,7 +148,9 @@ if(this.selectedTask.status === "TODO") {
     .subscribe((data: any) => {
       this.allSelectedTodoComments = data.reverse()
       this.isTodoCommentLoading = false 
-    })
+    }, err => {
+        this.store.setErrMsg(err.error.error)
+      })
   }
 
   handleOnClickSendComment() {
@@ -141,6 +160,8 @@ if(this.selectedTask.status === "TODO") {
         this.allSelectedTodoComments.unshift(data)
         this.commentMsg = ""
         console.log(data)
+      }, err => {
+        this.store.setErrMsg(err.error.error)
       })
     }
   }
@@ -212,6 +233,8 @@ if(this.selectedTask.status === "TODO") {
       this.projectPageService.handleOnShareProject(this.projectData.id, this.newShareProjectEmail)
       .subscribe(data => {
         console.log(data)
+      }, err => {
+        this.store.setErrMsg(err.error.error)
       })
     }
   }
